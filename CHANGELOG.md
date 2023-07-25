@@ -4,6 +4,10 @@
 - []  ([#](https://github.com/react-dates/react-dates/pull/))
 -->
 
+## 21.8.0-patch.0
+
+- [fix] Fix work in react >=17: `UNSAFE_componentWillReceiveProps` & `UNSAFE_componentWillUpdate` ([#2199](https://github.com/react-dates/react-dates/issues/2199))
+
 ## 21.8.0
 
 - [new] Add option to allow days violating min nights to be clicked ([#1913](https://github.com/react-dates/react-dates/pull/1913))
