@@ -51,3 +51,6 @@ css/styles.css
 
 # Cache
 .cache/
+
+# IDE
+.idea/
