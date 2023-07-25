@@ -477,7 +477,13 @@ export default class DayPickerSingleDateController extends React.PureComponent {
   }
 
   onMonthChange(newMonth) {
-    const { numberOfMonths, enableOutsideDays, orientation } = this.props;
+    const {
+      enableOutsideDays,
+      maxDate,
+      minDate,
+      numberOfMonths,
+      orientation,
+    } = this.props;
     const withoutTransitionMonths = orientation === VERTICAL_SCROLLABLE;
     const newVisibleDays = getVisibleDays(
       newMonth,
@@ -489,11 +495,19 @@ export default class DayPickerSingleDateController extends React.PureComponent {
     this.setState({
       currentMonth: newMonth.clone(),
       visibleDays: this.getModifiers(newVisibleDays),
+      disablePrev: this.shouldDisableMonthNavigation(minDate, newMonth),
+      disableNext: this.shouldDisableMonthNavigation(maxDate, newMonth),
     });
   }
 
   onYearChange(newMonth) {
-    const { numberOfMonths, enableOutsideDays, orientation } = this.props;
+    const {
+      enableOutsideDays,
+      maxDate,
+      minDate,
+      numberOfMonths,
+      orientation,
+    } = this.props;
     const withoutTransitionMonths = orientation === VERTICAL_SCROLLABLE;
     const newVisibleDays = getVisibleDays(
       newMonth,
@@ -505,6 +519,8 @@ export default class DayPickerSingleDateController extends React.PureComponent {
     this.setState({
       currentMonth: newMonth.clone(),
       visibleDays: this.getModifiers(newVisibleDays),
+      disablePrev: this.shouldDisableMonthNavigation(minDate, newMonth),
+      disableNext: this.shouldDisableMonthNavigation(maxDate, newMonth),
     });
   }
 

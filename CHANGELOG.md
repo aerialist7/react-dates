@@ -6,6 +6,7 @@
 
 ## 21.8.0-patch.0
 
+- [fix] Fix disable prev and next state on month and year change ([#2169](https://github.com/react-dates/react-dates/pull/2169))
 - [fix] Fix work in react >=17: `UNSAFE_componentWillReceiveProps` & `UNSAFE_componentWillUpdate` ([#2199](https://github.com/react-dates/react-dates/issues/2199))
 
 ## 21.8.0
