@@ -12,7 +12,7 @@
 ## 21.8.0-patch.2
 
 - [fix] Fix work in react >=18
-- 
+
 ## 21.8.0-patch.0
 
 - [fix] Fix disable prev and next state on month and year change ([#2169](https://github.com/react-dates/react-dates/pull/2169))
