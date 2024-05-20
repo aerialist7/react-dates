@@ -19,7 +19,7 @@ function KeyboardShortcutRow({
   unicode,
   label,
   action,
-  block,
+  block = defaultProps.block,
   css,
   styles,
 }) {
@@ -53,7 +53,6 @@ function KeyboardShortcutRow({
 }
 
 KeyboardShortcutRow.propTypes = propTypes;
-KeyboardShortcutRow.defaultProps = defaultProps;
 
 export default withStyles(({ reactDates: { color } }) => ({
   KeyboardShortcutRow: {
