@@ -4,6 +4,15 @@
 - []  ([#](https://github.com/react-dates/react-dates/pull/))
 -->
 
+## 21.8.0-patch.3
+
+- [fix] Fixed React 18.3.x warning "Support for defaultProps will be removed from function components in a future major release. Use JavaScript default parameters instead." for `DateRangePickerInput`, `KeyboardShortcutRow`, `SingleDatePickerInput` and icon-components
+- [fix] Fix work in react >=19
+
+## 21.8.0-patch.2
+
+- [fix] Fix work in react >=18
+- 
 ## 21.8.0-patch.0
 
 - [fix] Fix disable prev and next state on month and year change ([#2169](https://github.com/react-dates/react-dates/pull/2169))
