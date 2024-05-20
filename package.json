@@ -49,6 +49,24 @@
     "url": "https://github.com/aerialist7/react-dates/issues"
   },
   "homepage": "https://github.com/aerialist7/react-dates#readme",
+  "exports": {
+    ".": {
+      "import": "./esm/index.js",
+      "require": "./lib/index.js",
+      "default": "./index.js"
+    },
+    "./initialize": {
+      "import": "./esm/initialize.js",
+      "require": "./lib/initialize.js",
+      "default": "./initialize.js"
+    },
+    "./constants": {
+      "import": "./esm/constants.js",
+      "require": "./lib/constants.js",
+      "default": "./constants.js"
+    },
+    "./styles": "./lib/css/_datepicker.css"
+  },
   "devDependencies": {
     "@babel/cli": "^7.16.8",
     "@babel/core": "^7.16.12",
