@@ -4,6 +4,10 @@
 - []  ([#](https://github.com/react-dates/react-dates/pull/))
 -->
 
+## 21.8.0-patch.4
+
+- [fix] Support "exports" field
+
 ## 21.8.0-patch.3
 
 - [fix] Fixed React 18.3.x warning "Support for defaultProps will be removed from function components in a future major release. Use JavaScript default parameters instead." for `DateRangePickerInput`, `KeyboardShortcutRow`, `SingleDatePickerInput` and icon-components
