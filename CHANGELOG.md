@@ -4,6 +4,10 @@
 - []  ([#](https://github.com/react-dates/react-dates/pull/))
 -->
 
+## 21.8.0-patch.5
+
+- [fix] Direct dependency on `prop-types-exact` v.1.2.0 for correct work of `airbnb-prop-types` package
+
 ## 21.8.0-patch.4
 
 - [fix] Support "exports" field
