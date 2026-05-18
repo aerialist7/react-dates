@@ -1,20 +1,19 @@
 # react-dates <sup>[![Version Badge][npm-version-svg]][package-url]</sup>
 
-[![Build Status][travis-svg]][travis-url]
-[![dependency status][deps-svg]][deps-url]
-[![dev dependency status][dev-deps-svg]][dev-deps-url]
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
+[![Known Vulnerabilities][snyk-svg]][snyk-url]
+[![Dependencies][libio-svg]][libio-url]
 
 [![npm badge][npm-badge-png]][package-url]
 
 > An easily internationalizable, accessible, mobile-friendly datepicker library for the web.
 
-![react-dates in action](https://raw.githubusercontent.com/airbnb/react-dates/master/react-dates-demo.gif)
+![react-dates in action](https://raw.githubusercontent.com/react-dates/react-dates/HEAD/react-dates-demo.gif)
 
 ## Live Playground
 
-For examples of the datepicker in action, go to http://airbnb.io/react-dates.
+For examples of the datepicker in action, go to [react-dates.github.io](https://react-dates.github.io/react-dates/).
 
 OR
 
@@ -26,7 +25,7 @@ To run that demo on your own computer:
 
 ## Getting Started
 ### Install dependencies
-Ensure packages are installed with correct version numbers by running:
+Ensure packages are installed with correct version numbers by running (from your command line):
   ```sh
   (
     export PKG=react-dates;
@@ -34,11 +33,13 @@ Ensure packages are installed with correct version numbers by running:
   )
   ```
 
-  Which produces and runs a command like:
+Which produces and runs a command like:
 
   ```sh
   npm install --save react-dates moment@>=#.## react@>=#.## react-dom@>=#.##
   ```
+
+> If you are running Windows, that command will not work, but if you are running npm 5 or higher, you can run `npx install-peerdeps react-dates` on any platform
 
 ### Initialize
 ```js
@@ -111,7 +112,7 @@ This would override the background and text colors applied to highlighted calend
 ### Make some awesome datepickers
 
 We provide a handful of components for your use. If you supply essential props to each component, you'll get a full featured interactive date picker. With additional optional props, you can customize the look and feel of the inputs, calendar, etc. You can see what each of the props do in the [live demo](http://airbnb.io/react-dates/) or explore
-how to properly wrap the pickers in the [examples folder](https://github.com/airbnb/react-dates/tree/master/examples).
+how to properly wrap the pickers in the [examples folder](https://github.com/react-dates/react-dates/tree/HEAD/examples).
 
 #### DateRangePicker
 The `DateRangePicker` is a fully controlled component that allows users to select a date range. You can control the selected
@@ -140,6 +141,8 @@ startDatePlaceholderText: PropTypes.string,
 endDatePlaceholderText: PropTypes.string,
 startDateAriaLabel: PropTypes.string,
 endDateAriaLabel: PropTypes.string,
+startDateTitleText: PropTypes.string,
+endDateTitleText: PropTypes.string,
 disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf([START_DATE, END_DATE])]),
 required: PropTypes.bool,
 readOnly: PropTypes.bool,
@@ -154,6 +157,7 @@ noBorder: PropTypes.bool,
 block: PropTypes.bool,
 small: PropTypes.bool,
 regular: PropTypes.bool,
+autoComplete: PropTypes.string,
 
 // calendar presentation and interaction related props
 renderMonthText: mutuallyExclusiveProps(PropTypes.func, 'renderMonthText', 'renderMonthElement'), // (month) => PropTypes.string,
@@ -175,6 +179,7 @@ reopenPickerOnClearDates: PropTypes.bool,
 renderCalendarInfo: PropTypes.func,
 renderMonthElement: mutuallyExclusiveProps(PropTypes.func, 'renderMonthText', 'renderMonthElement'), PropTypes.func, // ({ month, onMonthSelect, onYearSelect, isVisible }) => PropTypes.node,
 hideKeyboardShortcutsPanel: PropTypes.bool,
+verticalSpacing: PropTypes.number,
 
 // navigation related props
 navPrev: PropTypes.node,
@@ -226,6 +231,7 @@ The following is a list of other *OPTIONAL* props you may provide to the `Single
 // input related props
 placeholder: PropTypes.string,
 ariaLabel: PropTypes.string,
+titleText: PropTypes.string,
 disabled: PropTypes.bool,
 required: PropTypes.bool,
 readOnly: PropTypes.bool,
@@ -239,6 +245,7 @@ noBorder: PropTypes.bool,
 block: PropTypes.bool,
 small: PropTypes.bool,
 regular: PropTypes.bool,
+autoComplete: PropTypes.string,
 
 // calendar presentation and interaction related props
 renderMonthText: mutuallyExclusiveProps(PropTypes.func, 'renderMonthText', 'renderMonthElement'), // (month) => PropTypes.string,
@@ -260,6 +267,7 @@ renderMonthElement: mutuallyExclusiveProps(PropTypes.func, 'renderMonthText', 'r
 hideKeyboardShortcutsPanel: PropTypes.bool,
 daySize: nonNegativeInteger,
 isRTL: PropTypes.bool,
+verticalSpacing: PropTypes.number,
 
 // navigation related props
 navPrev: PropTypes.node,
@@ -347,7 +355,7 @@ The following is a list of other *OPTIONAL* props you may provide to the `DayPic
 moment.locale('pl'); // Polish
 ```
 
-However, this only solves date localization. For complete internationalization of the components, `react-dates` defines a certain amount of [user interface strings](https://github.com/airbnb/react-dates/blob/master/src/defaultPhrases.js) in English which can be changed through the `phrases` prop (explore the [storybook](http://airbnb.io/react-dates/?selectedKind=DateRangePicker%20%28DRP%29&selectedStory=non-english%20locale&full=0&addons=1&stories=1&panelRight=0&addonPanel=kadirahq%2Fstorybook-addon-actions%2Factions-panel) for examples). For accessibility and usability concerns, **all these UI elements should be translated**.
+However, this only solves date localization. For complete internationalization of the components, `react-dates` defines a certain amount of [user interface strings](https://github.com/react-dates/react-dates/blob/HEAD/src/defaultPhrases.js) in English which can be changed through the `phrases` prop (explore the [storybook](http://airbnb.io/react-dates/?selectedKind=DateRangePicker%20%28DRP%29&selectedStory=non-english%20locale&full=0&addons=1&stories=1&panelRight=0&addonPanel=kadirahq%2Fstorybook-addon-actions%2Factions-panel) for examples). For accessibility and usability concerns, **all these UI elements should be translated**.
 
 ## Advanced
 
@@ -355,7 +363,7 @@ However, this only solves date localization. For complete internationalization o
 
 ### Interfaces
 
-The `react-dates/initialize` script actually relies on [react-with-styles-interface-css](https://github.com/airbnb/react-with-styles-interface-css) under the hood. If you are interested in a different solution for styling in your project, you can do your own initialization of a another [interface](https://github.com/airbnb/react-with-styles/blob/master/README.md#interfaces). At Airbnb, for instance, we rely on [Aphrodite](https://github.com/Khan/aphrodite) under the hood and therefore use the Aphrodite interface for `react-with-styles`. If you want to do the same, you would use the following pattern:
+The `react-dates/initialize` script actually relies on [react-with-styles-interface-css](https://github.com/airbnb/react-with-styles-interface-css) under the hood. If you are interested in a different solution for styling in your project, you can do your own initialization of a another [interface](https://github.com/airbnb/react-with-styles/blob/HEAD/README.md#interfaces). At Airbnb, for instance, we rely on [Aphrodite](https://github.com/Khan/aphrodite) under the hood and therefore use the Aphrodite interface for `react-with-styles`. If you want to do the same, you would use the following pattern:
 ```js
 import ThemedStyleSheet from 'react-with-styles/lib/ThemedStyleSheet';
 import aphroditeInterface from 'react-with-styles-interface-aphrodite';
@@ -368,7 +376,7 @@ ThemedStyleSheet.registerTheme(DefaultTheme);
 The above code has to be run before any `react-dates` component is imported. Otherwise, you will get an error. Also note that if you register any custom interface manually, you *must* also manually register a theme.
 
 ### Theming
-`react-dates` also now supports a different way to theme. You can see the default theme values in [this file](https://github.com/airbnb/react-dates/blob/master/src/theme/DefaultTheme.js) and you would override them in the following manner:
+`react-dates` also now supports a different way to theme. You can see the default theme values in [this file](https://github.com/react-dates/react-dates/blob/HEAD/src/theme/DefaultTheme.js) and you would override them in the following manner:
 ```js
 import ThemedStyleSheet from 'react-with-styles/lib/ThemedStyleSheet';
 import aphroditeInterface from 'react-with-styles-interface-aphrodite';
@@ -396,18 +404,20 @@ ThemedStyleSheet.registerTheme({
 The above code would use shades of green instead of shades of yellow for the highlight color on `CalendarDay` components. Note that you *must* register an interface if you manually register a theme. One will not work without the other.
 
 #### A note on using `react-with-styles-interface-css`
-The default interface that `react-dates` ships with is the [CSS interface](https://github.com/airbnb/react-with-styles-interface-css). If you want to use this interface along with the theme registration method, you will need to rebuild the core `_datepicker.css` file. We do not currently expose a utility method to build this file, but you can follow along with the code in https://github.com/airbnb/react-dates/blob/master/scripts/buildCSS.js to build your own custom themed CSS file.
+The default interface that `react-dates` ships with is the [CSS interface](https://github.com/airbnb/react-with-styles-interface-css). If you want to use this interface along with the theme registration method, you will need to rebuild the core `_datepicker.css` file. We do not currently expose a utility method to build this file, but you can follow along with the code in https://github.com/react-dates/react-dates/blob/HEAD/scripts/buildCSS.js to build your own custom themed CSS file.
 
-[package-url]: https://npmjs.org/package/react-dates
-[npm-version-svg]: http://versionbadg.es/airbnb/react-dates.svg
-[travis-svg]: https://travis-ci.org/airbnb/react-dates.svg
-[travis-url]: https://travis-ci.org/airbnb/react-dates
-[deps-svg]: https://david-dm.org/airbnb/react-dates.svg
-[deps-url]: https://david-dm.org/airbnb/react-dates
-[dev-deps-svg]: https://david-dm.org/airbnb/react-dates/dev-status.svg
-[dev-deps-url]: https://david-dm.org/airbnb/react-dates#info=devDependencies
+[package-url]: https://www.npmjs.com/package/@aerialist7/react-dates
+[npm-version-svg]: https://img.shields.io/npm/v/@aerialist7/react-dates.svg
+[snyk-svg]: https://snyk.io/test/github/aerialist7/react-dates/badge.svg
+[snyk-url]: https://snyk.io/test/github/aerialist7/react-dates
+[libio-svg]: https://img.shields.io/librariesio/release/npm/@aerialist7/react-dates
+[libio-url]: https://libraries.io/npm/@aerialist7%2Freact-dates
+[deps-svg]: https://david-dm.org/react-dates/react-dates.svg
+[deps-url]: https://david-dm.org/react-dates/react-dates
+[dev-deps-svg]: https://david-dm.org/react-dates/react-dates/dev-status.svg
+[dev-deps-url]: https://david-dm.org/react-dates/react-dates#info=devDependencies
 [npm-badge-png]: https://nodei.co/npm/react-dates.png?downloads=true&stars=true
-[license-image]: http://img.shields.io/npm/l/react-dates.svg
+[license-image]: https://img.shields.io/npm/l/@aerialist7/react-dates.svg
 [license-url]: LICENSE
-[downloads-image]: http://img.shields.io/npm/dm/react-dates.svg
-[downloads-url]: http://npm-stat.com/charts.html?package=react-dates
+[downloads-image]: https://img.shields.io/npm/dm/@aerialist7/react-dates.svg
+[downloads-url]: https://www.npmjs.com/package/@aerialist7/react-dates
