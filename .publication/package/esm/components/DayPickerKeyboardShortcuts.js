@@ -1,13 +1,17 @@
 import _extends from "@babel/runtime/helpers/esm/extends";
+import _assertThisInitialized from "@babel/runtime/helpers/esm/assertThisInitialized";
 import _inheritsLoose from "@babel/runtime/helpers/esm/inheritsLoose";
 import _defineProperty from "@babel/runtime/helpers/esm/defineProperty";
 import shallowEqual from "enzyme-shallow-equal";
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { forbidExtraProps } from 'airbnb-prop-types';
-import { withStyles, withStylesPropTypes } from 'react-with-styles';
+import { css, withStyles, withStylesPropTypes } from 'react-with-styles';
 import { DayPickerKeyboardShortcutsPhrases } from '../defaultPhrases';
 import getPhrasePropTypes from '../utils/getPhrasePropTypes';
 import KeyboardShortcutRow from './KeyboardShortcutRow';
@@ -15,7 +19,7 @@ import CloseButton from './CloseButton';
 export var TOP_LEFT = 'top-left';
 export var TOP_RIGHT = 'top-right';
 export var BOTTOM_RIGHT = 'bottom-right';
-var propTypes = process.env.NODE_ENV !== "production" ? forbidExtraProps(_objectSpread(_objectSpread({}, withStylesPropTypes), {}, {
+var propTypes = process.env.NODE_ENV !== "production" ? forbidExtraProps(_objectSpread({}, withStylesPropTypes, {
   block: PropTypes.bool,
   // TODO: rename button location to be direction-agnostic
   buttonLocation: PropTypes.oneOf([TOP_LEFT, TOP_RIGHT, BOTTOM_RIGHT]),
@@ -36,6 +40,7 @@ var defaultProps = {
   renderKeyboardShortcutsButton: undefined,
   renderKeyboardShortcutsPanel: undefined
 };
+
 function getKeyboardShortcuts(phrases) {
   return [{
     unicode: '↵',
@@ -67,62 +72,67 @@ function getKeyboardShortcuts(phrases) {
     action: phrases.openThisPanel
   }];
 }
-var DayPickerKeyboardShortcuts = /*#__PURE__*/function (_ref2, _ref) {
+
+var DayPickerKeyboardShortcuts =
+/*#__PURE__*/
+function (_ref) {
+  _inheritsLoose(DayPickerKeyboardShortcuts, _ref);
+
+  var _proto = DayPickerKeyboardShortcuts.prototype;
+
+  _proto[!React.PureComponent && "shouldComponentUpdate"] = function (nextProps, nextState) {
+    return !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
+  };
+
   function DayPickerKeyboardShortcuts() {
     var _this;
+
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _ref2.call.apply(_ref2, [this].concat(args)) || this;
+
+    _this = _ref.call.apply(_ref, [this].concat(args)) || this;
     var phrases = _this.props.phrases;
     _this.keyboardShortcuts = getKeyboardShortcuts(phrases);
-    _this.onShowKeyboardShortcutsButtonClick = _this.onShowKeyboardShortcutsButtonClick.bind(_this);
-    _this.setShowKeyboardShortcutsButtonRef = _this.setShowKeyboardShortcutsButtonRef.bind(_this);
-    _this.setHideKeyboardShortcutsButtonRef = _this.setHideKeyboardShortcutsButtonRef.bind(_this);
-    _this.handleFocus = _this.handleFocus.bind(_this);
-    _this.onKeyDown = _this.onKeyDown.bind(_this);
+    _this.onShowKeyboardShortcutsButtonClick = _this.onShowKeyboardShortcutsButtonClick.bind(_assertThisInitialized(_this));
+    _this.setShowKeyboardShortcutsButtonRef = _this.setShowKeyboardShortcutsButtonRef.bind(_assertThisInitialized(_this));
+    _this.setHideKeyboardShortcutsButtonRef = _this.setHideKeyboardShortcutsButtonRef.bind(_assertThisInitialized(_this));
+    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_this));
+    _this.onKeyDown = _this.onKeyDown.bind(_assertThisInitialized(_this));
     return _this;
   }
-  _inheritsLoose(DayPickerKeyboardShortcuts, _ref2);
-  var _proto = DayPickerKeyboardShortcuts.prototype;
-  _proto[_ref] = function (nextProps, nextState) {
-    return !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
-  };
+
   _proto.UNSAFE_componentWillReceiveProps = function UNSAFE_componentWillReceiveProps(nextProps) {
     var phrases = this.props.phrases;
+
     if (nextProps.phrases !== phrases) {
       this.keyboardShortcuts = getKeyboardShortcuts(nextProps.phrases);
     }
   };
+
   _proto.componentDidUpdate = function componentDidUpdate() {
     this.handleFocus();
   };
-  _proto.handleFocus = function handleFocus() {
-    if (this.hideKeyboardShortcutsButton) {
-      // automatically move focus into the dialog by moving
-      // to the only interactive element, the hide button
-      this.hideKeyboardShortcutsButton.focus();
-    }
-  };
+
   _proto.onKeyDown = function onKeyDown(e) {
     e.stopPropagation();
-    var closeKeyboardShortcutsPanel = this.props.closeKeyboardShortcutsPanel;
-    // Because the close button is the only focusable element inside of the panel, this
+    var closeKeyboardShortcutsPanel = this.props.closeKeyboardShortcutsPanel; // Because the close button is the only focusable element inside of the panel, this
     // amounts to a very basic focus trap. The user can exit the panel by "pressing" the
     // close button or hitting escape
+
     switch (e.key) {
       case 'Escape':
         closeKeyboardShortcutsPanel();
         break;
-
       // do nothing - this allows the up and down arrows continue their
       // default behavior of scrolling the content of the Keyboard Shortcuts Panel
       // which is needed when only a single month is shown for instance.
+
       case 'ArrowUp':
       case 'ArrowDown':
         break;
-
       // completely block the rest of the keys that have functionality outside of this panel
+
       case 'Tab':
       case 'Home':
       case 'End':
@@ -132,46 +142,58 @@ var DayPickerKeyboardShortcuts = /*#__PURE__*/function (_ref2, _ref) {
       case 'ArrowRight':
         e.preventDefault();
         break;
+
       default:
         break;
     }
   };
+
   _proto.onShowKeyboardShortcutsButtonClick = function onShowKeyboardShortcutsButtonClick() {
     var _this2 = this;
-    var openKeyboardShortcutsPanel = this.props.openKeyboardShortcutsPanel;
 
-    // we want to return focus to this button after closing the keyboard shortcuts panel
+    var openKeyboardShortcutsPanel = this.props.openKeyboardShortcutsPanel; // we want to return focus to this button after closing the keyboard shortcuts panel
+
     openKeyboardShortcutsPanel(function () {
       _this2.showKeyboardShortcutsButton.focus();
     });
   };
+
   _proto.setShowKeyboardShortcutsButtonRef = function setShowKeyboardShortcutsButtonRef(ref) {
     this.showKeyboardShortcutsButton = ref;
   };
+
   _proto.setHideKeyboardShortcutsButtonRef = function setHideKeyboardShortcutsButtonRef(ref) {
     this.hideKeyboardShortcutsButton = ref;
   };
+
+  _proto.handleFocus = function handleFocus() {
+    if (this.hideKeyboardShortcutsButton) {
+      // automatically move focus into the dialog by moving
+      // to the only interactive element, the hide button
+      this.hideKeyboardShortcutsButton.focus();
+    }
+  };
+
   _proto.render = function render() {
     var _this$props = this.props,
-      block = _this$props.block,
-      buttonLocation = _this$props.buttonLocation,
-      showKeyboardShortcutsPanel = _this$props.showKeyboardShortcutsPanel,
-      closeKeyboardShortcutsPanel = _this$props.closeKeyboardShortcutsPanel,
-      css = _this$props.css,
-      styles = _this$props.styles,
-      phrases = _this$props.phrases,
-      renderKeyboardShortcutsButton = _this$props.renderKeyboardShortcutsButton,
-      renderKeyboardShortcutsPanel = _this$props.renderKeyboardShortcutsPanel;
+        block = _this$props.block,
+        buttonLocation = _this$props.buttonLocation,
+        showKeyboardShortcutsPanel = _this$props.showKeyboardShortcutsPanel,
+        closeKeyboardShortcutsPanel = _this$props.closeKeyboardShortcutsPanel,
+        styles = _this$props.styles,
+        phrases = _this$props.phrases,
+        renderKeyboardShortcutsButton = _this$props.renderKeyboardShortcutsButton,
+        renderKeyboardShortcutsPanel = _this$props.renderKeyboardShortcutsPanel;
     var toggleButtonText = showKeyboardShortcutsPanel ? phrases.hideKeyboardShortcutsPanel : phrases.showKeyboardShortcutsPanel;
     var bottomRight = buttonLocation === BOTTOM_RIGHT;
     var topRight = buttonLocation === TOP_RIGHT;
     var topLeft = buttonLocation === TOP_LEFT;
-    return /*#__PURE__*/React.createElement("div", null, renderKeyboardShortcutsButton && renderKeyboardShortcutsButton({
+    return React.createElement("div", null, renderKeyboardShortcutsButton && renderKeyboardShortcutsButton({
       // passing in context-specific props
       ref: this.setShowKeyboardShortcutsButtonRef,
       onClick: this.onShowKeyboardShortcutsButtonClick,
       ariaLabel: toggleButtonText
-    }), !renderKeyboardShortcutsButton && /*#__PURE__*/React.createElement("button", _extends({
+    }), !renderKeyboardShortcutsButton && React.createElement("button", _extends({
       ref: this.setShowKeyboardShortcutsButtonRef
     }, css(styles.DayPickerKeyboardShortcuts_buttonReset, styles.DayPickerKeyboardShortcuts_show, bottomRight && styles.DayPickerKeyboardShortcuts_show__bottomRight, topRight && styles.DayPickerKeyboardShortcuts_show__topRight, topLeft && styles.DayPickerKeyboardShortcuts_show__topLeft), {
       type: "button",
@@ -180,19 +202,19 @@ var DayPickerKeyboardShortcuts = /*#__PURE__*/function (_ref2, _ref) {
       onMouseUp: function onMouseUp(e) {
         e.currentTarget.blur();
       }
-    }), /*#__PURE__*/React.createElement("span", css(styles.DayPickerKeyboardShortcuts_showSpan, bottomRight && styles.DayPickerKeyboardShortcuts_showSpan__bottomRight, topRight && styles.DayPickerKeyboardShortcuts_showSpan__topRight, topLeft && styles.DayPickerKeyboardShortcuts_showSpan__topLeft), "?")), showKeyboardShortcutsPanel && (renderKeyboardShortcutsPanel ? renderKeyboardShortcutsPanel({
+    }), React.createElement("span", css(styles.DayPickerKeyboardShortcuts_showSpan, bottomRight && styles.DayPickerKeyboardShortcuts_showSpan__bottomRight, topRight && styles.DayPickerKeyboardShortcuts_showSpan__topRight, topLeft && styles.DayPickerKeyboardShortcuts_showSpan__topLeft), "?")), showKeyboardShortcutsPanel && (renderKeyboardShortcutsPanel ? renderKeyboardShortcutsPanel({
       closeButtonAriaLabel: phrases.hideKeyboardShortcutsPanel,
       keyboardShortcuts: this.keyboardShortcuts,
       onCloseButtonClick: closeKeyboardShortcutsPanel,
       onKeyDown: this.onKeyDown,
       title: phrases.keyboardShortcuts
-    }) : /*#__PURE__*/React.createElement("div", _extends({}, css(styles.DayPickerKeyboardShortcuts_panel), {
+    }) : React.createElement("div", _extends({}, css(styles.DayPickerKeyboardShortcuts_panel), {
       role: "dialog",
       "aria-labelledby": "DayPickerKeyboardShortcuts_title",
       "aria-describedby": "DayPickerKeyboardShortcuts_description"
-    }), /*#__PURE__*/React.createElement("div", _extends({}, css(styles.DayPickerKeyboardShortcuts_title), {
+    }), React.createElement("div", _extends({}, css(styles.DayPickerKeyboardShortcuts_title), {
       id: "DayPickerKeyboardShortcuts_title"
-    }), phrases.keyboardShortcuts), /*#__PURE__*/React.createElement("button", _extends({
+    }), phrases.keyboardShortcuts), React.createElement("button", _extends({
       ref: this.setHideKeyboardShortcutsButtonRef
     }, css(styles.DayPickerKeyboardShortcuts_buttonReset, styles.DayPickerKeyboardShortcuts_close), {
       type: "button",
@@ -200,13 +222,13 @@ var DayPickerKeyboardShortcuts = /*#__PURE__*/function (_ref2, _ref) {
       "aria-label": phrases.hideKeyboardShortcutsPanel,
       onClick: closeKeyboardShortcutsPanel,
       onKeyDown: this.onKeyDown
-    }), /*#__PURE__*/React.createElement(CloseButton, css(styles.DayPickerKeyboardShortcuts_closeSvg))), /*#__PURE__*/React.createElement("ul", _extends({}, css(styles.DayPickerKeyboardShortcuts_list), {
+    }), React.createElement(CloseButton, css(styles.DayPickerKeyboardShortcuts_closeSvg))), React.createElement("ul", _extends({}, css(styles.DayPickerKeyboardShortcuts_list), {
       id: "DayPickerKeyboardShortcuts_description"
-    }), this.keyboardShortcuts.map(function (_ref3) {
-      var unicode = _ref3.unicode,
-        label = _ref3.label,
-        action = _ref3.action;
-      return /*#__PURE__*/React.createElement(KeyboardShortcutRow, {
+    }), this.keyboardShortcuts.map(function (_ref2) {
+      var unicode = _ref2.unicode,
+          label = _ref2.label,
+          action = _ref2.action;
+      return React.createElement(KeyboardShortcutRow, {
         key: label,
         unicode: unicode,
         label: label,
@@ -215,15 +237,17 @@ var DayPickerKeyboardShortcuts = /*#__PURE__*/function (_ref2, _ref) {
       });
     })))));
   };
+
   return DayPickerKeyboardShortcuts;
-}(React.PureComponent || React.Component, !React.PureComponent && "shouldComponentUpdate");
+}(React.PureComponent || React.Component);
+
 DayPickerKeyboardShortcuts.propTypes = process.env.NODE_ENV !== "production" ? propTypes : {};
 DayPickerKeyboardShortcuts.defaultProps = defaultProps;
-export default withStyles(function (_ref4) {
-  var _ref4$reactDates = _ref4.reactDates,
-    color = _ref4$reactDates.color,
-    font = _ref4$reactDates.font,
-    zIndex = _ref4$reactDates.zIndex;
+export default withStyles(function (_ref3) {
+  var _ref3$reactDates = _ref3.reactDates,
+      color = _ref3$reactDates.color,
+      font = _ref3$reactDates.font,
+      zIndex = _ref3$reactDates.zIndex;
   return {
     DayPickerKeyboardShortcuts_buttonReset: {
       background: 'none',
@@ -320,6 +344,7 @@ export default withStyles(function (_ref4) {
       padding: 22,
       margin: 33,
       textAlign: 'left' // TODO: investigate use of text-align throughout the library
+
     },
     DayPickerKeyboardShortcuts_title: {
       fontSize: 16,

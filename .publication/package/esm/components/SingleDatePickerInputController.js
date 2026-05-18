@@ -1,3 +1,4 @@
+import _assertThisInitialized from "@babel/runtime/helpers/esm/assertThisInitialized";
 import _inheritsLoose from "@babel/runtime/helpers/esm/inheritsLoose";
 import shallowEqual from "enzyme-shallow-equal";
 import React from 'react';
@@ -24,8 +25,6 @@ var propTypes = process.env.NODE_ENV !== "production" ? forbidExtraProps({
   id: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   ariaLabel: PropTypes.string,
-  autoComplete: PropTypes.string,
-  titleText: PropTypes.string,
   screenReaderMessage: PropTypes.string,
   showClearDate: PropTypes.bool,
   showCaret: PropTypes.bool,
@@ -43,7 +42,6 @@ var propTypes = process.env.NODE_ENV !== "production" ? forbidExtraProps({
   keepOpenOnDateSelect: PropTypes.bool,
   reopenPickerOnClearDate: PropTypes.bool,
   isOutsideRange: PropTypes.func,
-  isDayBlocked: PropTypes.func,
   displayFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   onClose: PropTypes.func,
   onKeyDownArrowDown: PropTypes.func,
@@ -62,8 +60,6 @@ var defaultProps = {
   focused: false,
   placeholder: '',
   ariaLabel: undefined,
-  autoComplete: 'off',
-  titleText: undefined,
   screenReaderMessage: 'Date',
   showClearDate: false,
   showCaret: false,
@@ -83,9 +79,6 @@ var defaultProps = {
   isOutsideRange: function isOutsideRange(day) {
     return !isInclusivelyAfterDay(day, moment());
   },
-  isDayBlocked: function isDayBlocked() {
-    return false;
-  },
   displayFormat: function displayFormat() {
     return moment.localeData().longDateFormat('L');
   },
@@ -100,33 +93,42 @@ var defaultProps = {
   phrases: SingleDatePickerInputPhrases,
   isRTL: false
 };
-var SingleDatePickerInputController = /*#__PURE__*/function (_ref2, _ref) {
-  function SingleDatePickerInputController(props) {
-    var _this;
-    _this = _ref2.call(this, props) || this;
-    _this.onChange = _this.onChange.bind(_this);
-    _this.onFocus = _this.onFocus.bind(_this);
-    _this.onClearFocus = _this.onClearFocus.bind(_this);
-    _this.clearDate = _this.clearDate.bind(_this);
-    return _this;
-  }
-  _inheritsLoose(SingleDatePickerInputController, _ref2);
+
+var SingleDatePickerInputController =
+/*#__PURE__*/
+function (_ref) {
+  _inheritsLoose(SingleDatePickerInputController, _ref);
+
   var _proto = SingleDatePickerInputController.prototype;
-  _proto[_ref] = function (nextProps, nextState) {
+
+  _proto[!React.PureComponent && "shouldComponentUpdate"] = function (nextProps, nextState) {
     return !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
   };
+
+  function SingleDatePickerInputController(props) {
+    var _this;
+
+    _this = _ref.call(this, props) || this;
+    _this.onChange = _this.onChange.bind(_assertThisInitialized(_this));
+    _this.onFocus = _this.onFocus.bind(_assertThisInitialized(_this));
+    _this.onClearFocus = _this.onClearFocus.bind(_assertThisInitialized(_this));
+    _this.clearDate = _this.clearDate.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
   _proto.onChange = function onChange(dateString) {
     var _this$props = this.props,
-      isOutsideRange = _this$props.isOutsideRange,
-      isDayBlocked = _this$props.isDayBlocked,
-      keepOpenOnDateSelect = _this$props.keepOpenOnDateSelect,
-      onDateChange = _this$props.onDateChange,
-      onFocusChange = _this$props.onFocusChange,
-      onClose = _this$props.onClose;
+        isOutsideRange = _this$props.isOutsideRange,
+        keepOpenOnDateSelect = _this$props.keepOpenOnDateSelect,
+        onDateChange = _this$props.onDateChange,
+        onFocusChange = _this$props.onFocusChange,
+        onClose = _this$props.onClose;
     var newDate = toMomentObject(dateString, this.getDisplayFormat());
-    var isValid = newDate && !isOutsideRange(newDate) && !isDayBlocked(newDate);
+    var isValid = newDate && !isOutsideRange(newDate);
+
     if (isValid) {
       onDateChange(newDate);
+
       if (!keepOpenOnDateSelect) {
         onFocusChange({
           focused: false
@@ -139,22 +141,25 @@ var SingleDatePickerInputController = /*#__PURE__*/function (_ref2, _ref) {
       onDateChange(null);
     }
   };
+
   _proto.onFocus = function onFocus() {
     var _this$props2 = this.props,
-      onFocusChange = _this$props2.onFocusChange,
-      disabled = _this$props2.disabled;
+        onFocusChange = _this$props2.onFocusChange,
+        disabled = _this$props2.disabled;
+
     if (!disabled) {
       onFocusChange({
         focused: true
       });
     }
   };
+
   _proto.onClearFocus = function onClearFocus() {
     var _this$props3 = this.props,
-      focused = _this$props3.focused,
-      onFocusChange = _this$props3.onFocusChange,
-      onClose = _this$props3.onClose,
-      date = _this$props3.date;
+        focused = _this$props3.focused,
+        onFocusChange = _this$props3.onFocusChange,
+        onClose = _this$props3.onClose,
+        date = _this$props3.date;
     if (!focused) return;
     onFocusChange({
       focused: false
@@ -163,67 +168,70 @@ var SingleDatePickerInputController = /*#__PURE__*/function (_ref2, _ref) {
       date: date
     });
   };
+
   _proto.getDisplayFormat = function getDisplayFormat() {
     var displayFormat = this.props.displayFormat;
     return typeof displayFormat === 'string' ? displayFormat : displayFormat();
   };
+
   _proto.getDateString = function getDateString(date) {
     var displayFormat = this.getDisplayFormat();
+
     if (date && displayFormat) {
       return date && date.format(displayFormat);
     }
+
     return toLocalizedDateString(date);
   };
+
   _proto.clearDate = function clearDate() {
     var _this$props4 = this.props,
-      onDateChange = _this$props4.onDateChange,
-      reopenPickerOnClearDate = _this$props4.reopenPickerOnClearDate,
-      onFocusChange = _this$props4.onFocusChange;
+        onDateChange = _this$props4.onDateChange,
+        reopenPickerOnClearDate = _this$props4.reopenPickerOnClearDate,
+        onFocusChange = _this$props4.onFocusChange;
     onDateChange(null);
+
     if (reopenPickerOnClearDate) {
       onFocusChange({
         focused: true
       });
     }
   };
+
   _proto.render = function render() {
     var _this$props5 = this.props,
-      children = _this$props5.children,
-      id = _this$props5.id,
-      placeholder = _this$props5.placeholder,
-      ariaLabel = _this$props5.ariaLabel,
-      autoComplete = _this$props5.autoComplete,
-      titleText = _this$props5.titleText,
-      disabled = _this$props5.disabled,
-      focused = _this$props5.focused,
-      isFocused = _this$props5.isFocused,
-      required = _this$props5.required,
-      readOnly = _this$props5.readOnly,
-      openDirection = _this$props5.openDirection,
-      showClearDate = _this$props5.showClearDate,
-      showCaret = _this$props5.showCaret,
-      showDefaultInputIcon = _this$props5.showDefaultInputIcon,
-      inputIconPosition = _this$props5.inputIconPosition,
-      customCloseIcon = _this$props5.customCloseIcon,
-      customInputIcon = _this$props5.customInputIcon,
-      date = _this$props5.date,
-      phrases = _this$props5.phrases,
-      onKeyDownArrowDown = _this$props5.onKeyDownArrowDown,
-      onKeyDownQuestionMark = _this$props5.onKeyDownQuestionMark,
-      screenReaderMessage = _this$props5.screenReaderMessage,
-      isRTL = _this$props5.isRTL,
-      noBorder = _this$props5.noBorder,
-      block = _this$props5.block,
-      small = _this$props5.small,
-      regular = _this$props5.regular,
-      verticalSpacing = _this$props5.verticalSpacing;
+        children = _this$props5.children,
+        id = _this$props5.id,
+        placeholder = _this$props5.placeholder,
+        ariaLabel = _this$props5.ariaLabel,
+        disabled = _this$props5.disabled,
+        focused = _this$props5.focused,
+        isFocused = _this$props5.isFocused,
+        required = _this$props5.required,
+        readOnly = _this$props5.readOnly,
+        openDirection = _this$props5.openDirection,
+        showClearDate = _this$props5.showClearDate,
+        showCaret = _this$props5.showCaret,
+        showDefaultInputIcon = _this$props5.showDefaultInputIcon,
+        inputIconPosition = _this$props5.inputIconPosition,
+        customCloseIcon = _this$props5.customCloseIcon,
+        customInputIcon = _this$props5.customInputIcon,
+        date = _this$props5.date,
+        phrases = _this$props5.phrases,
+        onKeyDownArrowDown = _this$props5.onKeyDownArrowDown,
+        onKeyDownQuestionMark = _this$props5.onKeyDownQuestionMark,
+        screenReaderMessage = _this$props5.screenReaderMessage,
+        isRTL = _this$props5.isRTL,
+        noBorder = _this$props5.noBorder,
+        block = _this$props5.block,
+        small = _this$props5.small,
+        regular = _this$props5.regular,
+        verticalSpacing = _this$props5.verticalSpacing;
     var displayValue = this.getDateString(date);
-    return /*#__PURE__*/React.createElement(SingleDatePickerInput, {
+    return React.createElement(SingleDatePickerInput, {
       id: id,
       placeholder: placeholder,
       ariaLabel: ariaLabel,
-      autoComplete: autoComplete,
-      titleText: titleText,
       focused: focused,
       isFocused: isFocused,
       disabled: disabled,
@@ -253,8 +261,10 @@ var SingleDatePickerInputController = /*#__PURE__*/function (_ref2, _ref) {
       verticalSpacing: verticalSpacing
     }, children);
   };
+
   return SingleDatePickerInputController;
-}(React.PureComponent || React.Component, !React.PureComponent && "shouldComponentUpdate");
+}(React.PureComponent || React.Component);
+
 export { SingleDatePickerInputController as default };
 SingleDatePickerInputController.propTypes = process.env.NODE_ENV !== "production" ? propTypes : {};
 SingleDatePickerInputController.defaultProps = defaultProps;

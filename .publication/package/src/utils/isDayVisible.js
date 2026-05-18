@@ -21,7 +21,7 @@ export default function isDayVisible(day, month, numberOfMonths, enableOutsideDa
 
   if (enableOutsideDays) {
     if (!startCacheOutsideDays.has(startKey)) {
-      startCacheOutsideDays.set(startKey, month.clone().startOf('month').startOf('week').hour(12));
+      startCacheOutsideDays.set(startKey, month.clone().startOf('month').startOf('week'));
     }
 
     if (isBeforeDay(day, startCacheOutsideDays.get(startKey))) return false;
@@ -30,8 +30,7 @@ export default function isDayVisible(day, month, numberOfMonths, enableOutsideDa
       endCacheOutsideDays.set(
         endKey,
         month.clone().endOf('week').add(numberOfMonths - 1, 'months').endOf('month')
-          .endOf('week')
-          .hour(12),
+          .endOf('week'),
       );
     }
 
@@ -41,7 +40,7 @@ export default function isDayVisible(day, month, numberOfMonths, enableOutsideDa
   // !enableOutsideDays
 
   if (!startCacheInsideDays.has(startKey)) {
-    startCacheInsideDays.set(startKey, month.clone().startOf('month').hour(12));
+    startCacheInsideDays.set(startKey, month.clone().startOf('month'));
   }
 
   if (isBeforeDay(day, startCacheInsideDays.get(startKey))) return false;
@@ -49,7 +48,7 @@ export default function isDayVisible(day, month, numberOfMonths, enableOutsideDa
   if (!endCacheInsideDays.has(endKey)) {
     endCacheInsideDays.set(
       endKey,
-      month.clone().add(numberOfMonths - 1, 'months').endOf('month').hour(12),
+      month.clone().add(numberOfMonths - 1, 'months').endOf('month'),
     );
   }
 

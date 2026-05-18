@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = getDetachedContainerStyles;
+
 var _constants = require("../constants");
+
 /**
  * Calculate and return a CSS transform style to position a detached element
  * next to a reference element. The open and anchor direction indicate wether
@@ -29,12 +31,15 @@ function getDetachedContainerStyles(openDirection, anchorDirection, referenceEl)
   var referenceRect = referenceEl.getBoundingClientRect();
   var offsetX = referenceRect.left;
   var offsetY = referenceRect.top;
+
   if (openDirection === _constants.OPEN_UP) {
     offsetY = -(window.innerHeight - referenceRect.bottom);
   }
+
   if (anchorDirection === _constants.ANCHOR_RIGHT) {
     offsetX = -(window.innerWidth - referenceRect.right);
   }
+
   return {
     transform: "translate3d(".concat(Math.round(offsetX), "px, ").concat(Math.round(offsetY), "px, 0)")
   };

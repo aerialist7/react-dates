@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.SingleDatePickerPhrases = exports.SingleDatePickerInputPhrases = exports.DayPickerPhrases = exports.DayPickerNavigationPhrases = exports.DayPickerKeyboardShortcutsPhrases = exports.DateRangePickerPhrases = exports.DateRangePickerInputPhrases = exports.CalendarDayPhrases = void 0;
+exports.CalendarDayPhrases = exports.DayPickerNavigationPhrases = exports.DayPickerKeyboardShortcutsPhrases = exports.DayPickerPhrases = exports.SingleDatePickerInputPhrases = exports.SingleDatePickerPhrases = exports.DateRangePickerInputPhrases = exports.DateRangePickerPhrases = exports["default"] = void 0;
 var calendarLabel = 'Calendar';
 var roleDescription = 'datepicker';
 var closeDatePicker = 'Close';
@@ -31,35 +31,43 @@ var moveFocustoStartAndEndOfWeek = 'Go to the first or last day of a week.';
 var returnFocusToInput = 'Return to the date input field.';
 var keyboardForwardNavigationInstructions = 'Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.';
 var keyboardBackwardNavigationInstructions = 'Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.';
+
 var chooseAvailableStartDate = function chooseAvailableStartDate(_ref) {
   var date = _ref.date;
   return "Choose ".concat(date, " as your check-in date. It\u2019s available.");
 };
+
 var chooseAvailableEndDate = function chooseAvailableEndDate(_ref2) {
   var date = _ref2.date;
   return "Choose ".concat(date, " as your check-out date. It\u2019s available.");
 };
+
 var chooseAvailableDate = function chooseAvailableDate(_ref3) {
   var date = _ref3.date;
   return date;
 };
+
 var dateIsUnavailable = function dateIsUnavailable(_ref4) {
   var date = _ref4.date;
   return "Not available. ".concat(date);
 };
+
 var dateIsSelected = function dateIsSelected(_ref5) {
   var date = _ref5.date;
   return "Selected. ".concat(date);
 };
+
 var dateIsSelectedAsStartDate = function dateIsSelectedAsStartDate(_ref6) {
   var date = _ref6.date;
   return "Selected as start date. ".concat(date);
 };
+
 var dateIsSelectedAsEndDate = function dateIsSelectedAsEndDate(_ref7) {
   var date = _ref7.date;
   return "Selected as end date. ".concat(date);
 };
-var _default = exports["default"] = {
+
+var _default = {
   calendarLabel: calendarLabel,
   roleDescription: roleDescription,
   closeDatePicker: closeDatePicker,
@@ -94,7 +102,8 @@ var _default = exports["default"] = {
   dateIsSelectedAsStartDate: dateIsSelectedAsStartDate,
   dateIsSelectedAsEndDate: dateIsSelectedAsEndDate
 };
-var DateRangePickerPhrases = exports.DateRangePickerPhrases = {
+exports["default"] = _default;
+var DateRangePickerPhrases = {
   calendarLabel: calendarLabel,
   roleDescription: roleDescription,
   closeDatePicker: closeDatePicker,
@@ -128,13 +137,15 @@ var DateRangePickerPhrases = exports.DateRangePickerPhrases = {
   dateIsSelectedAsStartDate: dateIsSelectedAsStartDate,
   dateIsSelectedAsEndDate: dateIsSelectedAsEndDate
 };
-var DateRangePickerInputPhrases = exports.DateRangePickerInputPhrases = {
+exports.DateRangePickerPhrases = DateRangePickerPhrases;
+var DateRangePickerInputPhrases = {
   focusStartDate: focusStartDate,
   clearDates: clearDates,
   keyboardForwardNavigationInstructions: keyboardForwardNavigationInstructions,
   keyboardBackwardNavigationInstructions: keyboardBackwardNavigationInstructions
 };
-var SingleDatePickerPhrases = exports.SingleDatePickerPhrases = {
+exports.DateRangePickerInputPhrases = DateRangePickerInputPhrases;
+var SingleDatePickerPhrases = {
   calendarLabel: calendarLabel,
   roleDescription: roleDescription,
   closeDatePicker: closeDatePicker,
@@ -164,12 +175,14 @@ var SingleDatePickerPhrases = exports.SingleDatePickerPhrases = {
   dateIsUnavailable: dateIsUnavailable,
   dateIsSelected: dateIsSelected
 };
-var SingleDatePickerInputPhrases = exports.SingleDatePickerInputPhrases = {
+exports.SingleDatePickerPhrases = SingleDatePickerPhrases;
+var SingleDatePickerInputPhrases = {
   clearDate: clearDate,
   keyboardForwardNavigationInstructions: keyboardForwardNavigationInstructions,
   keyboardBackwardNavigationInstructions: keyboardBackwardNavigationInstructions
 };
-var DayPickerPhrases = exports.DayPickerPhrases = {
+exports.SingleDatePickerInputPhrases = SingleDatePickerInputPhrases;
+var DayPickerPhrases = {
   calendarLabel: calendarLabel,
   roleDescription: roleDescription,
   jumpToPrevMonth: jumpToPrevMonth,
@@ -199,7 +212,8 @@ var DayPickerPhrases = exports.DayPickerPhrases = {
   dateIsSelectedAsStartDate: dateIsSelectedAsStartDate,
   dateIsSelectedAsEndDate: dateIsSelectedAsEndDate
 };
-var DayPickerKeyboardShortcutsPhrases = exports.DayPickerKeyboardShortcutsPhrases = {
+exports.DayPickerPhrases = DayPickerPhrases;
+var DayPickerKeyboardShortcutsPhrases = {
   keyboardShortcuts: keyboardShortcuts,
   showKeyboardShortcutsPanel: showKeyboardShortcutsPanel,
   hideKeyboardShortcutsPanel: hideKeyboardShortcutsPanel,
@@ -218,14 +232,17 @@ var DayPickerKeyboardShortcutsPhrases = exports.DayPickerKeyboardShortcutsPhrase
   moveFocustoStartAndEndOfWeek: moveFocustoStartAndEndOfWeek,
   returnFocusToInput: returnFocusToInput
 };
-var DayPickerNavigationPhrases = exports.DayPickerNavigationPhrases = {
+exports.DayPickerKeyboardShortcutsPhrases = DayPickerKeyboardShortcutsPhrases;
+var DayPickerNavigationPhrases = {
   jumpToPrevMonth: jumpToPrevMonth,
   jumpToNextMonth: jumpToNextMonth
 };
-var CalendarDayPhrases = exports.CalendarDayPhrases = {
+exports.DayPickerNavigationPhrases = DayPickerNavigationPhrases;
+var CalendarDayPhrases = {
   chooseAvailableDate: chooseAvailableDate,
   dateIsUnavailable: dateIsUnavailable,
   dateIsSelected: dateIsSelected,
   dateIsSelectedAsStartDate: dateIsSelectedAsStartDate,
   dateIsSelectedAsEndDate: dateIsSelectedAsEndDate
 };
+exports.CalendarDayPhrases = CalendarDayPhrases;

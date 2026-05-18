@@ -1,13 +1,17 @@
 import _extends from "@babel/runtime/helpers/esm/extends";
+import _assertThisInitialized from "@babel/runtime/helpers/esm/assertThisInitialized";
 import _inheritsLoose from "@babel/runtime/helpers/esm/inheritsLoose";
 import _defineProperty from "@babel/runtime/helpers/esm/defineProperty";
 import shallowEqual from "enzyme-shallow-equal";
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { forbidExtraProps, nonNegativeInteger } from 'airbnb-prop-types';
-import { withStyles, withStylesPropTypes } from 'react-with-styles';
+import { css, withStyles, withStylesPropTypes } from 'react-with-styles';
 import throttle from 'lodash/throttle';
 import isTouchDevice from 'is-touch-device';
 import noflip from '../utils/noflip';
@@ -18,13 +22,11 @@ var FANG_PATH_TOP = "M0,".concat(FANG_HEIGHT_PX, " ").concat(FANG_WIDTH_PX, ",")
 var FANG_STROKE_TOP = "M0,".concat(FANG_HEIGHT_PX, " ").concat(FANG_WIDTH_PX / 2, ",0 ").concat(FANG_WIDTH_PX, ",").concat(FANG_HEIGHT_PX);
 var FANG_PATH_BOTTOM = "M0,0 ".concat(FANG_WIDTH_PX, ",0 ").concat(FANG_WIDTH_PX / 2, ",").concat(FANG_HEIGHT_PX, "z");
 var FANG_STROKE_BOTTOM = "M0,0 ".concat(FANG_WIDTH_PX / 2, ",").concat(FANG_HEIGHT_PX, " ").concat(FANG_WIDTH_PX, ",0");
-var propTypes = process.env.NODE_ENV !== "production" ? forbidExtraProps(_objectSpread(_objectSpread({}, withStylesPropTypes), {}, {
+var propTypes = process.env.NODE_ENV !== "production" ? forbidExtraProps(_objectSpread({}, withStylesPropTypes, {
   id: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   displayValue: PropTypes.string,
   ariaLabel: PropTypes.string,
-  autoComplete: PropTypes.string,
-  titleText: PropTypes.string,
   screenReaderMessage: PropTypes.string,
   focused: PropTypes.bool,
   disabled: PropTypes.bool,
@@ -44,13 +46,12 @@ var propTypes = process.env.NODE_ENV !== "production" ? forbidExtraProps(_object
   onKeyDownQuestionMark: PropTypes.func,
   // accessibility
   isFocused: PropTypes.bool // describes actual DOM focus
+
 })) : {};
 var defaultProps = {
   placeholder: 'Select Date',
   displayValue: '',
   ariaLabel: undefined,
-  autoComplete: 'off',
-  titleText: undefined,
   screenReaderMessage: '',
   focused: false,
   disabled: false,
@@ -71,58 +72,70 @@ var defaultProps = {
   // accessibility
   isFocused: false
 };
-var DateInput = /*#__PURE__*/function (_ref2, _ref) {
+
+var DateInput =
+/*#__PURE__*/
+function (_ref) {
+  _inheritsLoose(DateInput, _ref);
+
+  var _proto = DateInput.prototype;
+
+  _proto[!React.PureComponent && "shouldComponentUpdate"] = function (nextProps, nextState) {
+    return !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
+  };
+
   function DateInput(props) {
     var _this;
-    _this = _ref2.call(this, props) || this;
+
+    _this = _ref.call(this, props) || this;
     _this.state = {
       dateString: '',
       isTouchDevice: false
     };
-    _this.onChange = _this.onChange.bind(_this);
-    _this.onKeyDown = _this.onKeyDown.bind(_this);
-    _this.setInputRef = _this.setInputRef.bind(_this);
+    _this.onChange = _this.onChange.bind(_assertThisInitialized(_this));
+    _this.onKeyDown = _this.onKeyDown.bind(_assertThisInitialized(_this));
+    _this.setInputRef = _this.setInputRef.bind(_assertThisInitialized(_this));
     _this.throttledKeyDown = throttle(_this.onFinalKeyDown, 300, {
       trailing: false
     });
     return _this;
   }
-  _inheritsLoose(DateInput, _ref2);
-  var _proto = DateInput.prototype;
-  _proto[_ref] = function (nextProps, nextState) {
-    return !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
-  };
+
   _proto.componentDidMount = function componentDidMount() {
     this.setState({
       isTouchDevice: isTouchDevice()
     });
   };
+
   _proto.UNSAFE_componentWillReceiveProps = function UNSAFE_componentWillReceiveProps(nextProps) {
     var dateString = this.state.dateString;
+
     if (dateString && nextProps.displayValue) {
       this.setState({
         dateString: ''
       });
     }
   };
+
   _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
     var _this$props = this.props,
-      focused = _this$props.focused,
-      isFocused = _this$props.isFocused;
+        focused = _this$props.focused,
+        isFocused = _this$props.isFocused;
     if (prevProps.focused === focused && prevProps.isFocused === isFocused) return;
+
     if (focused && isFocused) {
       this.inputRef.focus();
     }
   };
+
   _proto.onChange = function onChange(e) {
     var _this$props2 = this.props,
-      onChange = _this$props2.onChange,
-      onKeyDownQuestionMark = _this$props2.onKeyDownQuestionMark;
-    var dateString = e.target.value;
-
-    // In Safari, onKeyDown does not consistently fire ahead of onChange. As a result, we need to
+        onChange = _this$props2.onChange,
+        onKeyDownQuestionMark = _this$props2.onKeyDownQuestionMark;
+    var dateString = e.target.value; // In Safari, onKeyDown does not consistently fire ahead of onChange. As a result, we need to
     // special case the `?` key so that it always triggers the appropriate callback, instead of
     // modifying the input value
+
     if (dateString[dateString.length - 1] === '?') {
       onKeyDownQuestionMark(e);
     } else {
@@ -133,19 +146,23 @@ var DateInput = /*#__PURE__*/function (_ref2, _ref) {
       });
     }
   };
+
   _proto.onKeyDown = function onKeyDown(e) {
     e.stopPropagation();
+
     if (!MODIFIER_KEY_NAMES.has(e.key)) {
       this.throttledKeyDown(e);
     }
   };
+
   _proto.onFinalKeyDown = function onFinalKeyDown(e) {
     var _this$props3 = this.props,
-      onKeyDownShiftTab = _this$props3.onKeyDownShiftTab,
-      onKeyDownTab = _this$props3.onKeyDownTab,
-      onKeyDownArrowDown = _this$props3.onKeyDownArrowDown,
-      onKeyDownQuestionMark = _this$props3.onKeyDownQuestionMark;
+        onKeyDownShiftTab = _this$props3.onKeyDownShiftTab,
+        onKeyDownTab = _this$props3.onKeyDownTab,
+        onKeyDownArrowDown = _this$props3.onKeyDownArrowDown,
+        onKeyDownQuestionMark = _this$props3.onKeyDownQuestionMark;
     var key = e.key;
+
     if (key === 'Tab') {
       if (e.shiftKey) {
         onKeyDownShiftTab(e);
@@ -159,42 +176,40 @@ var DateInput = /*#__PURE__*/function (_ref2, _ref) {
       onKeyDownQuestionMark(e);
     }
   };
+
   _proto.setInputRef = function setInputRef(ref) {
     this.inputRef = ref;
   };
+
   _proto.render = function render() {
     var _this$state = this.state,
-      dateString = _this$state.dateString,
-      isTouch = _this$state.isTouchDevice;
+        dateString = _this$state.dateString,
+        isTouch = _this$state.isTouchDevice;
     var _this$props4 = this.props,
-      id = _this$props4.id,
-      placeholder = _this$props4.placeholder,
-      ariaLabel = _this$props4.ariaLabel,
-      autoComplete = _this$props4.autoComplete,
-      titleText = _this$props4.titleText,
-      displayValue = _this$props4.displayValue,
-      screenReaderMessage = _this$props4.screenReaderMessage,
-      focused = _this$props4.focused,
-      showCaret = _this$props4.showCaret,
-      onFocus = _this$props4.onFocus,
-      disabled = _this$props4.disabled,
-      required = _this$props4.required,
-      readOnly = _this$props4.readOnly,
-      openDirection = _this$props4.openDirection,
-      verticalSpacing = _this$props4.verticalSpacing,
-      small = _this$props4.small,
-      regular = _this$props4.regular,
-      block = _this$props4.block,
-      css = _this$props4.css,
-      styles = _this$props4.styles,
-      reactDates = _this$props4.theme.reactDates;
+        id = _this$props4.id,
+        placeholder = _this$props4.placeholder,
+        ariaLabel = _this$props4.ariaLabel,
+        displayValue = _this$props4.displayValue,
+        screenReaderMessage = _this$props4.screenReaderMessage,
+        focused = _this$props4.focused,
+        showCaret = _this$props4.showCaret,
+        onFocus = _this$props4.onFocus,
+        disabled = _this$props4.disabled,
+        required = _this$props4.required,
+        readOnly = _this$props4.readOnly,
+        openDirection = _this$props4.openDirection,
+        verticalSpacing = _this$props4.verticalSpacing,
+        small = _this$props4.small,
+        regular = _this$props4.regular,
+        block = _this$props4.block,
+        styles = _this$props4.styles,
+        reactDates = _this$props4.theme.reactDates;
     var value = dateString || displayValue || '';
     var screenReaderMessageId = "DateInput__screen-reader-message-".concat(id);
     var withFang = showCaret && focused;
     var inputHeight = getInputHeight(reactDates, small);
-    return /*#__PURE__*/React.createElement("div", css(styles.DateInput, small && styles.DateInput__small, block && styles.DateInput__block, withFang && styles.DateInput__withFang, disabled && styles.DateInput__disabled, withFang && openDirection === OPEN_DOWN && styles.DateInput__openDown, withFang && openDirection === OPEN_UP && styles.DateInput__openUp), /*#__PURE__*/React.createElement("input", _extends({}, css(styles.DateInput_input, small && styles.DateInput_input__small, regular && styles.DateInput_input__regular, readOnly && styles.DateInput_input__readOnly, focused && styles.DateInput_input__focused, disabled && styles.DateInput_input__disabled), {
+    return React.createElement("div", css(styles.DateInput, small && styles.DateInput__small, block && styles.DateInput__block, withFang && styles.DateInput__withFang, disabled && styles.DateInput__disabled, withFang && openDirection === OPEN_DOWN && styles.DateInput__openDown, withFang && openDirection === OPEN_UP && styles.DateInput__openUp), React.createElement("input", _extends({}, css(styles.DateInput_input, small && styles.DateInput_input__small, regular && styles.DateInput_input__regular, readOnly && styles.DateInput_input__readOnly, focused && styles.DateInput_input__focused, disabled && styles.DateInput_input__disabled), {
       "aria-label": ariaLabel === undefined ? placeholder : ariaLabel,
-      title: titleText,
       type: "text",
       id: id,
       name: id,
@@ -204,38 +219,40 @@ var DateInput = /*#__PURE__*/function (_ref2, _ref) {
       onKeyDown: this.onKeyDown,
       onFocus: onFocus,
       placeholder: placeholder,
-      autoComplete: autoComplete,
+      autoComplete: "off",
       disabled: disabled,
       readOnly: typeof readOnly === 'boolean' ? readOnly : isTouch,
       required: required,
       "aria-describedby": screenReaderMessage && screenReaderMessageId
-    })), withFang && /*#__PURE__*/React.createElement("svg", _extends({
+    })), withFang && React.createElement("svg", _extends({
       role: "presentation",
       focusable: "false"
     }, css(styles.DateInput_fang, openDirection === OPEN_DOWN && {
       top: inputHeight + verticalSpacing - FANG_HEIGHT_PX - 1
     }, openDirection === OPEN_UP && {
       bottom: inputHeight + verticalSpacing - FANG_HEIGHT_PX - 1
-    })), /*#__PURE__*/React.createElement("path", _extends({}, css(styles.DateInput_fangShape), {
+    })), React.createElement("path", _extends({}, css(styles.DateInput_fangShape), {
       d: openDirection === OPEN_DOWN ? FANG_PATH_TOP : FANG_PATH_BOTTOM
-    })), /*#__PURE__*/React.createElement("path", _extends({}, css(styles.DateInput_fangStroke), {
+    })), React.createElement("path", _extends({}, css(styles.DateInput_fangStroke), {
       d: openDirection === OPEN_DOWN ? FANG_STROKE_TOP : FANG_STROKE_BOTTOM
-    }))), screenReaderMessage && /*#__PURE__*/React.createElement("p", _extends({}, css(styles.DateInput_screenReaderMessage), {
+    }))), screenReaderMessage && React.createElement("p", _extends({}, css(styles.DateInput_screenReaderMessage), {
       id: screenReaderMessageId
     }), screenReaderMessage));
   };
+
   return DateInput;
-}(React.PureComponent || React.Component, !React.PureComponent && "shouldComponentUpdate");
+}(React.PureComponent || React.Component);
+
 DateInput.propTypes = process.env.NODE_ENV !== "production" ? propTypes : {};
 DateInput.defaultProps = defaultProps;
-export default withStyles(function (_ref3) {
-  var _ref3$reactDates = _ref3.reactDates,
-    border = _ref3$reactDates.border,
-    color = _ref3$reactDates.color,
-    sizing = _ref3$reactDates.sizing,
-    spacing = _ref3$reactDates.spacing,
-    font = _ref3$reactDates.font,
-    zIndex = _ref3$reactDates.zIndex;
+export default withStyles(function (_ref2) {
+  var _ref2$reactDates = _ref2.reactDates,
+      border = _ref2$reactDates.border,
+      color = _ref2$reactDates.color,
+      sizing = _ref2$reactDates.sizing,
+      spacing = _ref2$reactDates.spacing,
+      font = _ref2$reactDates.font,
+      zIndex = _ref2$reactDates.zIndex;
   return {
     DateInput: {
       margin: 0,
@@ -286,7 +303,7 @@ export default withStyles(function (_ref3) {
       paddingRight: noflip(spacing.displayTextPaddingRight_small)
     },
     DateInput_input__regular: {
-      fontWeight: 'inherit'
+      fontWeight: 'auto'
     },
     DateInput_input__readOnly: {
       userSelect: 'none'

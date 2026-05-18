@@ -1,28 +1,50 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+
 var _enzymeShallowEqual = _interopRequireDefault(require("enzyme-shallow-equal"));
+
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
+
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
+
 var _react = _interopRequireDefault(require("react"));
+
 var _propTypes = _interopRequireDefault(require("prop-types"));
+
 var _moment = _interopRequireDefault(require("moment"));
+
 var _reactMomentProptypes = _interopRequireDefault(require("react-moment-proptypes"));
+
 var _airbnbPropTypes = require("airbnb-prop-types");
+
 var _OpenDirectionShape = _interopRequireDefault(require("../shapes/OpenDirectionShape"));
+
 var _defaultPhrases = require("../defaultPhrases");
+
 var _getPhrasePropTypes = _interopRequireDefault(require("../utils/getPhrasePropTypes"));
+
 var _DateRangePickerInput = _interopRequireDefault(require("./DateRangePickerInput"));
+
 var _IconPositionShape = _interopRequireDefault(require("../shapes/IconPositionShape"));
+
 var _DisabledShape = _interopRequireDefault(require("../shapes/DisabledShape"));
+
 var _toMomentObject = _interopRequireDefault(require("../utils/toMomentObject"));
+
 var _toLocalizedDateString = _interopRequireDefault(require("../utils/toLocalizedDateString"));
+
 var _isInclusivelyAfterDay = _interopRequireDefault(require("../utils/isInclusivelyAfterDay"));
+
 var _isBeforeDay = _interopRequireDefault(require("../utils/isBeforeDay"));
+
 var _constants = require("../constants");
+
 var propTypes = process.env.NODE_ENV !== "production" ? (0, _airbnbPropTypes.forbidExtraProps)({
   children: _propTypes["default"].node,
   startDate: _reactMomentProptypes["default"].momentObj,
@@ -30,13 +52,11 @@ var propTypes = process.env.NODE_ENV !== "production" ? (0, _airbnbPropTypes.for
   startDatePlaceholderText: _propTypes["default"].string,
   isStartDateFocused: _propTypes["default"].bool,
   startDateAriaLabel: _propTypes["default"].string,
-  startDateTitleText: _propTypes["default"].string,
   endDate: _reactMomentProptypes["default"].momentObj,
   endDateId: _propTypes["default"].string,
   endDatePlaceholderText: _propTypes["default"].string,
   isEndDateFocused: _propTypes["default"].bool,
   endDateAriaLabel: _propTypes["default"].string,
-  endDateTitleText: _propTypes["default"].string,
   screenReaderMessage: _propTypes["default"].string,
   showClearDates: _propTypes["default"].bool,
   showCaret: _propTypes["default"].bool,
@@ -51,13 +71,11 @@ var propTypes = process.env.NODE_ENV !== "production" ? (0, _airbnbPropTypes.for
   small: _propTypes["default"].bool,
   regular: _propTypes["default"].bool,
   verticalSpacing: _airbnbPropTypes.nonNegativeInteger,
-  autoComplete: _propTypes["default"].string,
   keepOpenOnDateSelect: _propTypes["default"].bool,
   reopenPickerOnClearDates: _propTypes["default"].bool,
   withFullScreenPortal: _propTypes["default"].bool,
   minimumNights: _airbnbPropTypes.nonNegativeInteger,
   isOutsideRange: _propTypes["default"].func,
-  isDayBlocked: _propTypes["default"].func,
   displayFormat: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].func]),
   onFocusChange: _propTypes["default"].func,
   onClose: _propTypes["default"].func,
@@ -80,13 +98,11 @@ var defaultProps = {
   startDatePlaceholderText: 'Start Date',
   isStartDateFocused: false,
   startDateAriaLabel: undefined,
-  startDateTitleText: undefined,
   endDate: null,
   endDateId: _constants.END_DATE,
   endDatePlaceholderText: 'End Date',
   isEndDateFocused: false,
   endDateAriaLabel: undefined,
-  endDateTitleText: undefined,
   screenReaderMessage: '',
   showClearDates: false,
   showCaret: false,
@@ -101,16 +117,12 @@ var defaultProps = {
   small: false,
   regular: false,
   verticalSpacing: undefined,
-  autoComplete: 'off',
   keepOpenOnDateSelect: false,
   reopenPickerOnClearDates: false,
   withFullScreenPortal: false,
   minimumNights: 1,
   isOutsideRange: function isOutsideRange(day) {
     return !(0, _isInclusivelyAfterDay["default"])(day, (0, _moment["default"])());
-  },
-  isDayBlocked: function isDayBlocked() {
-    return false;
   },
   displayFormat: function displayFormat() {
     return _moment["default"].localeData().longDateFormat('L');
@@ -129,59 +141,59 @@ var defaultProps = {
   phrases: _defaultPhrases.DateRangePickerInputPhrases,
   isRTL: false
 };
-var DateRangePickerInputController = exports["default"] = /*#__PURE__*/function (_ref2, _ref) {
-  function DateRangePickerInputController(props) {
-    var _this;
-    _this = _ref2.call(this, props) || this;
-    _this.onClearFocus = _this.onClearFocus.bind(_this);
-    _this.onStartDateChange = _this.onStartDateChange.bind(_this);
-    _this.onStartDateFocus = _this.onStartDateFocus.bind(_this);
-    _this.onEndDateChange = _this.onEndDateChange.bind(_this);
-    _this.onEndDateFocus = _this.onEndDateFocus.bind(_this);
-    _this.clearDates = _this.clearDates.bind(_this);
-    return _this;
-  }
-  (0, _inheritsLoose2["default"])(DateRangePickerInputController, _ref2);
+
+var DateRangePickerInputController =
+/*#__PURE__*/
+function (_ref) {
+  (0, _inheritsLoose2["default"])(DateRangePickerInputController, _ref);
   var _proto = DateRangePickerInputController.prototype;
-  _proto[_ref] = function (nextProps, nextState) {
+
+  _proto[!_react["default"].PureComponent && "shouldComponentUpdate"] = function (nextProps, nextState) {
     return !(0, _enzymeShallowEqual["default"])(this.props, nextProps) || !(0, _enzymeShallowEqual["default"])(this.state, nextState);
   };
+
+  function DateRangePickerInputController(props) {
+    var _this;
+
+    _this = _ref.call(this, props) || this;
+    _this.onClearFocus = _this.onClearFocus.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.onStartDateChange = _this.onStartDateChange.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.onStartDateFocus = _this.onStartDateFocus.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.onEndDateChange = _this.onEndDateChange.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.onEndDateFocus = _this.onEndDateFocus.bind((0, _assertThisInitialized2["default"])(_this));
+    _this.clearDates = _this.clearDates.bind((0, _assertThisInitialized2["default"])(_this));
+    return _this;
+  }
+
   _proto.onClearFocus = function onClearFocus() {
     var _this$props = this.props,
-      onFocusChange = _this$props.onFocusChange,
-      onClose = _this$props.onClose,
-      startDate = _this$props.startDate,
-      endDate = _this$props.endDate;
+        onFocusChange = _this$props.onFocusChange,
+        onClose = _this$props.onClose,
+        startDate = _this$props.startDate,
+        endDate = _this$props.endDate;
     onFocusChange(null);
     onClose({
       startDate: startDate,
       endDate: endDate
     });
   };
+
   _proto.onEndDateChange = function onEndDateChange(endDateString) {
     var _this$props2 = this.props,
-      startDate = _this$props2.startDate,
-      isOutsideRange = _this$props2.isOutsideRange,
-      isDayBlocked = _this$props2.isDayBlocked,
-      minimumNights = _this$props2.minimumNights,
-      keepOpenOnDateSelect = _this$props2.keepOpenOnDateSelect,
-      onDatesChange = _this$props2.onDatesChange,
-      onClose = _this$props2.onClose,
-      onFocusChange = _this$props2.onFocusChange;
+        startDate = _this$props2.startDate,
+        isOutsideRange = _this$props2.isOutsideRange,
+        minimumNights = _this$props2.minimumNights,
+        keepOpenOnDateSelect = _this$props2.keepOpenOnDateSelect,
+        onDatesChange = _this$props2.onDatesChange;
     var endDate = (0, _toMomentObject["default"])(endDateString, this.getDisplayFormat());
-    var isEndDateValid = endDate && !isOutsideRange(endDate) && !isDayBlocked(endDate) && !(startDate && (0, _isBeforeDay["default"])(endDate, startDate.clone().add(minimumNights, 'days')));
+    var isEndDateValid = endDate && !isOutsideRange(endDate) && !(startDate && (0, _isBeforeDay["default"])(endDate, startDate.clone().add(minimumNights, 'days')));
+
     if (isEndDateValid) {
       onDatesChange({
         startDate: startDate,
         endDate: endDate
       });
-      if (!keepOpenOnDateSelect) {
-        onFocusChange(null);
-        onClose({
-          startDate: startDate,
-          endDate: endDate
-        });
-      }
+      if (!keepOpenOnDateSelect) this.onClearFocus();
     } else {
       onDatesChange({
         startDate: startDate,
@@ -189,12 +201,14 @@ var DateRangePickerInputController = exports["default"] = /*#__PURE__*/function 
       });
     }
   };
+
   _proto.onEndDateFocus = function onEndDateFocus() {
     var _this$props3 = this.props,
-      startDate = _this$props3.startDate,
-      onFocusChange = _this$props3.onFocusChange,
-      withFullScreenPortal = _this$props3.withFullScreenPortal,
-      disabled = _this$props3.disabled;
+        startDate = _this$props3.startDate,
+        onFocusChange = _this$props3.onFocusChange,
+        withFullScreenPortal = _this$props3.withFullScreenPortal,
+        disabled = _this$props3.disabled;
+
     if (!startDate && withFullScreenPortal && (!disabled || disabled === _constants.END_DATE)) {
       // When the datepicker is full screen, we never want to focus the end date first
       // because there's no indication that that is the case once the datepicker is open and it
@@ -204,22 +218,24 @@ var DateRangePickerInputController = exports["default"] = /*#__PURE__*/function 
       onFocusChange(_constants.END_DATE);
     }
   };
+
   _proto.onStartDateChange = function onStartDateChange(startDateString) {
     var endDate = this.props.endDate;
     var _this$props4 = this.props,
-      isOutsideRange = _this$props4.isOutsideRange,
-      isDayBlocked = _this$props4.isDayBlocked,
-      minimumNights = _this$props4.minimumNights,
-      onDatesChange = _this$props4.onDatesChange,
-      onFocusChange = _this$props4.onFocusChange,
-      disabled = _this$props4.disabled;
+        isOutsideRange = _this$props4.isOutsideRange,
+        minimumNights = _this$props4.minimumNights,
+        onDatesChange = _this$props4.onDatesChange,
+        onFocusChange = _this$props4.onFocusChange,
+        disabled = _this$props4.disabled;
     var startDate = (0, _toMomentObject["default"])(startDateString, this.getDisplayFormat());
     var isEndDateBeforeStartDate = startDate && (0, _isBeforeDay["default"])(endDate, startDate.clone().add(minimumNights, 'days'));
-    var isStartDateValid = startDate && !isOutsideRange(startDate) && !isDayBlocked(startDate) && !(disabled === _constants.END_DATE && isEndDateBeforeStartDate);
+    var isStartDateValid = startDate && !isOutsideRange(startDate) && !(disabled === _constants.END_DATE && isEndDateBeforeStartDate);
+
     if (isStartDateValid) {
       if (isEndDateBeforeStartDate) {
         endDate = null;
       }
+
       onDatesChange({
         startDate: startDate,
         endDate: endDate
@@ -232,91 +248,95 @@ var DateRangePickerInputController = exports["default"] = /*#__PURE__*/function 
       });
     }
   };
+
   _proto.onStartDateFocus = function onStartDateFocus() {
     var _this$props5 = this.props,
-      disabled = _this$props5.disabled,
-      onFocusChange = _this$props5.onFocusChange;
+        disabled = _this$props5.disabled,
+        onFocusChange = _this$props5.onFocusChange;
+
     if (!disabled || disabled === _constants.END_DATE) {
       onFocusChange(_constants.START_DATE);
     }
   };
+
   _proto.getDisplayFormat = function getDisplayFormat() {
     var displayFormat = this.props.displayFormat;
     return typeof displayFormat === 'string' ? displayFormat : displayFormat();
   };
+
   _proto.getDateString = function getDateString(date) {
     var displayFormat = this.getDisplayFormat();
+
     if (date && displayFormat) {
       return date && date.format(displayFormat);
     }
+
     return (0, _toLocalizedDateString["default"])(date);
   };
+
   _proto.clearDates = function clearDates() {
     var _this$props6 = this.props,
-      onDatesChange = _this$props6.onDatesChange,
-      reopenPickerOnClearDates = _this$props6.reopenPickerOnClearDates,
-      onFocusChange = _this$props6.onFocusChange;
+        onDatesChange = _this$props6.onDatesChange,
+        reopenPickerOnClearDates = _this$props6.reopenPickerOnClearDates,
+        onFocusChange = _this$props6.onFocusChange;
     onDatesChange({
       startDate: null,
       endDate: null
     });
+
     if (reopenPickerOnClearDates) {
       onFocusChange(_constants.START_DATE);
     }
   };
+
   _proto.render = function render() {
     var _this$props7 = this.props,
-      children = _this$props7.children,
-      startDate = _this$props7.startDate,
-      startDateId = _this$props7.startDateId,
-      startDatePlaceholderText = _this$props7.startDatePlaceholderText,
-      isStartDateFocused = _this$props7.isStartDateFocused,
-      startDateAriaLabel = _this$props7.startDateAriaLabel,
-      startDateTitleText = _this$props7.startDateTitleText,
-      endDate = _this$props7.endDate,
-      endDateId = _this$props7.endDateId,
-      endDatePlaceholderText = _this$props7.endDatePlaceholderText,
-      endDateAriaLabel = _this$props7.endDateAriaLabel,
-      endDateTitleText = _this$props7.endDateTitleText,
-      isEndDateFocused = _this$props7.isEndDateFocused,
-      screenReaderMessage = _this$props7.screenReaderMessage,
-      showClearDates = _this$props7.showClearDates,
-      showCaret = _this$props7.showCaret,
-      showDefaultInputIcon = _this$props7.showDefaultInputIcon,
-      inputIconPosition = _this$props7.inputIconPosition,
-      customInputIcon = _this$props7.customInputIcon,
-      customArrowIcon = _this$props7.customArrowIcon,
-      customCloseIcon = _this$props7.customCloseIcon,
-      disabled = _this$props7.disabled,
-      required = _this$props7.required,
-      readOnly = _this$props7.readOnly,
-      openDirection = _this$props7.openDirection,
-      isFocused = _this$props7.isFocused,
-      phrases = _this$props7.phrases,
-      onKeyDownArrowDown = _this$props7.onKeyDownArrowDown,
-      onKeyDownQuestionMark = _this$props7.onKeyDownQuestionMark,
-      isRTL = _this$props7.isRTL,
-      noBorder = _this$props7.noBorder,
-      block = _this$props7.block,
-      small = _this$props7.small,
-      regular = _this$props7.regular,
-      verticalSpacing = _this$props7.verticalSpacing,
-      autoComplete = _this$props7.autoComplete;
+        children = _this$props7.children,
+        startDate = _this$props7.startDate,
+        startDateId = _this$props7.startDateId,
+        startDatePlaceholderText = _this$props7.startDatePlaceholderText,
+        isStartDateFocused = _this$props7.isStartDateFocused,
+        startDateAriaLabel = _this$props7.startDateAriaLabel,
+        endDate = _this$props7.endDate,
+        endDateId = _this$props7.endDateId,
+        endDatePlaceholderText = _this$props7.endDatePlaceholderText,
+        endDateAriaLabel = _this$props7.endDateAriaLabel,
+        isEndDateFocused = _this$props7.isEndDateFocused,
+        screenReaderMessage = _this$props7.screenReaderMessage,
+        showClearDates = _this$props7.showClearDates,
+        showCaret = _this$props7.showCaret,
+        showDefaultInputIcon = _this$props7.showDefaultInputIcon,
+        inputIconPosition = _this$props7.inputIconPosition,
+        customInputIcon = _this$props7.customInputIcon,
+        customArrowIcon = _this$props7.customArrowIcon,
+        customCloseIcon = _this$props7.customCloseIcon,
+        disabled = _this$props7.disabled,
+        required = _this$props7.required,
+        readOnly = _this$props7.readOnly,
+        openDirection = _this$props7.openDirection,
+        isFocused = _this$props7.isFocused,
+        phrases = _this$props7.phrases,
+        onKeyDownArrowDown = _this$props7.onKeyDownArrowDown,
+        onKeyDownQuestionMark = _this$props7.onKeyDownQuestionMark,
+        isRTL = _this$props7.isRTL,
+        noBorder = _this$props7.noBorder,
+        block = _this$props7.block,
+        small = _this$props7.small,
+        regular = _this$props7.regular,
+        verticalSpacing = _this$props7.verticalSpacing;
     var startDateString = this.getDateString(startDate);
     var endDateString = this.getDateString(endDate);
-    return /*#__PURE__*/_react["default"].createElement(_DateRangePickerInput["default"], {
+    return _react["default"].createElement(_DateRangePickerInput["default"], {
       startDate: startDateString,
       startDateId: startDateId,
       startDatePlaceholderText: startDatePlaceholderText,
       isStartDateFocused: isStartDateFocused,
       startDateAriaLabel: startDateAriaLabel,
-      startDateTitleText: startDateTitleText,
       endDate: endDateString,
       endDateId: endDateId,
       endDatePlaceholderText: endDatePlaceholderText,
       isEndDateFocused: isEndDateFocused,
       endDateAriaLabel: endDateAriaLabel,
-      endDateTitleText: endDateTitleText,
       isFocused: isFocused,
       disabled: disabled,
       required: required,
@@ -344,11 +364,13 @@ var DateRangePickerInputController = exports["default"] = /*#__PURE__*/function 
       block: block,
       small: small,
       regular: regular,
-      verticalSpacing: verticalSpacing,
-      autoComplete: autoComplete
+      verticalSpacing: verticalSpacing
     }, children);
   };
+
   return DateRangePickerInputController;
-}(_react["default"].PureComponent || _react["default"].Component, !_react["default"].PureComponent && "shouldComponentUpdate");
+}(_react["default"].PureComponent || _react["default"].Component);
+
+exports["default"] = DateRangePickerInputController;
 DateRangePickerInputController.propTypes = process.env.NODE_ENV !== "production" ? propTypes : {};
 DateRangePickerInputController.defaultProps = defaultProps;

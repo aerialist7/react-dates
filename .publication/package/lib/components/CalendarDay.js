@@ -1,29 +1,51 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = exports.PureCalendarDay = void 0;
+
 var _enzymeShallowEqual = _interopRequireDefault(require("enzyme-shallow-equal"));
+
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
+
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
+
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
 var _react = _interopRequireDefault(require("react"));
+
 var _propTypes = _interopRequireDefault(require("prop-types"));
+
 var _reactMomentProptypes = _interopRequireDefault(require("react-moment-proptypes"));
+
 var _airbnbPropTypes = require("airbnb-prop-types");
+
 var _reactWithStyles = require("react-with-styles");
+
 var _moment = _interopRequireDefault(require("moment"));
+
 var _raf = _interopRequireDefault(require("raf"));
+
 var _defaultPhrases = require("../defaultPhrases");
+
 var _getPhrasePropTypes = _interopRequireDefault(require("../utils/getPhrasePropTypes"));
+
 var _getCalendarDaySettings = _interopRequireDefault(require("../utils/getCalendarDaySettings"));
+
 var _ModifiersShape = _interopRequireDefault(require("../shapes/ModifiersShape"));
+
 var _constants = require("../constants");
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0, _defineProperty2["default"])(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-var propTypes = process.env.NODE_ENV !== "production" ? (0, _airbnbPropTypes.forbidExtraProps)(_objectSpread(_objectSpread({}, _reactWithStyles.withStylesPropTypes), {}, {
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+var propTypes = process.env.NODE_ENV !== "production" ? (0, _airbnbPropTypes.forbidExtraProps)(_objectSpread({}, _reactWithStyles.withStylesPropTypes, {
   day: _reactMomentProptypes["default"].momentObj,
   daySize: _airbnbPropTypes.nonNegativeInteger,
   isOutsideDay: _propTypes["default"].bool,
@@ -53,26 +75,36 @@ var defaultProps = {
   // internationalization
   phrases: _defaultPhrases.CalendarDayPhrases
 };
-var CalendarDay = exports.PureCalendarDay = /*#__PURE__*/function (_ref2, _ref) {
+
+var CalendarDay =
+/*#__PURE__*/
+function (_ref) {
+  (0, _inheritsLoose2["default"])(CalendarDay, _ref);
+  var _proto = CalendarDay.prototype;
+
+  _proto[!_react["default"].PureComponent && "shouldComponentUpdate"] = function (nextProps, nextState) {
+    return !(0, _enzymeShallowEqual["default"])(this.props, nextProps) || !(0, _enzymeShallowEqual["default"])(this.state, nextState);
+  };
+
   function CalendarDay() {
     var _this;
+
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    _this = _ref2.call.apply(_ref2, [this].concat(args)) || this;
-    _this.setButtonRef = _this.setButtonRef.bind(_this);
+
+    _this = _ref.call.apply(_ref, [this].concat(args)) || this;
+    _this.setButtonRef = _this.setButtonRef.bind((0, _assertThisInitialized2["default"])(_this));
     return _this;
   }
-  (0, _inheritsLoose2["default"])(CalendarDay, _ref2);
-  var _proto = CalendarDay.prototype;
-  _proto[_ref] = function (nextProps, nextState) {
-    return !(0, _enzymeShallowEqual["default"])(this.props, nextProps) || !(0, _enzymeShallowEqual["default"])(this.state, nextState);
-  };
+
   _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
     var _this2 = this;
+
     var _this$props = this.props,
-      isFocused = _this$props.isFocused,
-      tabIndex = _this$props.tabIndex;
+        isFocused = _this$props.isFocused,
+        tabIndex = _this$props.tabIndex;
+
     if (tabIndex === 0) {
       if (isFocused || tabIndex !== prevProps.tabIndex) {
         (0, _raf["default"])(function () {
@@ -83,57 +115,63 @@ var CalendarDay = exports.PureCalendarDay = /*#__PURE__*/function (_ref2, _ref) 
       }
     }
   };
+
   _proto.onDayClick = function onDayClick(day, e) {
     var onDayClick = this.props.onDayClick;
     onDayClick(day, e);
   };
+
   _proto.onDayMouseEnter = function onDayMouseEnter(day, e) {
     var onDayMouseEnter = this.props.onDayMouseEnter;
     onDayMouseEnter(day, e);
   };
+
   _proto.onDayMouseLeave = function onDayMouseLeave(day, e) {
     var onDayMouseLeave = this.props.onDayMouseLeave;
     onDayMouseLeave(day, e);
   };
+
   _proto.onKeyDown = function onKeyDown(day, e) {
     var onDayClick = this.props.onDayClick;
     var key = e.key;
+
     if (key === 'Enter' || key === ' ') {
       onDayClick(day, e);
     }
   };
+
   _proto.setButtonRef = function setButtonRef(ref) {
     this.buttonRef = ref;
   };
+
   _proto.render = function render() {
     var _this3 = this;
+
     var _this$props2 = this.props,
-      day = _this$props2.day,
-      ariaLabelFormat = _this$props2.ariaLabelFormat,
-      daySize = _this$props2.daySize,
-      isOutsideDay = _this$props2.isOutsideDay,
-      modifiers = _this$props2.modifiers,
-      renderDayContents = _this$props2.renderDayContents,
-      tabIndex = _this$props2.tabIndex,
-      css = _this$props2.css,
-      styles = _this$props2.styles,
-      phrases = _this$props2.phrases;
-    if (!day) return /*#__PURE__*/_react["default"].createElement("td", null);
+        day = _this$props2.day,
+        ariaLabelFormat = _this$props2.ariaLabelFormat,
+        daySize = _this$props2.daySize,
+        isOutsideDay = _this$props2.isOutsideDay,
+        modifiers = _this$props2.modifiers,
+        renderDayContents = _this$props2.renderDayContents,
+        tabIndex = _this$props2.tabIndex,
+        styles = _this$props2.styles,
+        phrases = _this$props2.phrases;
+    if (!day) return _react["default"].createElement("td", null);
+
     var _getCalendarDaySettin = (0, _getCalendarDaySettings["default"])(day, ariaLabelFormat, daySize, modifiers, phrases),
-      daySizeStyles = _getCalendarDaySettin.daySizeStyles,
-      useDefaultCursor = _getCalendarDaySettin.useDefaultCursor,
-      selected = _getCalendarDaySettin.selected,
-      hoveredSpan = _getCalendarDaySettin.hoveredSpan,
-      isOutsideRange = _getCalendarDaySettin.isOutsideRange,
-      ariaLabel = _getCalendarDaySettin.ariaLabel;
-    return /*#__PURE__*/_react["default"].createElement("td", (0, _extends2["default"])({}, css(styles.CalendarDay, useDefaultCursor && styles.CalendarDay__defaultCursor, styles.CalendarDay__default, isOutsideDay && styles.CalendarDay__outside, modifiers.has('today') && styles.CalendarDay__today, modifiers.has('first-day-of-week') && styles.CalendarDay__firstDayOfWeek, modifiers.has('last-day-of-week') && styles.CalendarDay__lastDayOfWeek, modifiers.has('hovered-offset') && styles.CalendarDay__hovered_offset, modifiers.has('hovered-start-first-possible-end') && styles.CalendarDay__hovered_start_first_possible_end, modifiers.has('hovered-start-blocked-minimum-nights') && styles.CalendarDay__hovered_start_blocked_min_nights, modifiers.has('highlighted-calendar') && styles.CalendarDay__highlighted_calendar, modifiers.has('blocked-minimum-nights') && styles.CalendarDay__blocked_minimum_nights, modifiers.has('blocked-calendar') && styles.CalendarDay__blocked_calendar, hoveredSpan && styles.CalendarDay__hovered_span, modifiers.has('after-hovered-start') && styles.CalendarDay__after_hovered_start, modifiers.has('selected-span') && styles.CalendarDay__selected_span, modifiers.has('selected-start') && styles.CalendarDay__selected_start, modifiers.has('selected-end') && styles.CalendarDay__selected_end, selected && !modifiers.has('selected-span') && styles.CalendarDay__selected, modifiers.has('before-hovered-end') && styles.CalendarDay__before_hovered_end, modifiers.has('no-selected-start-before-selected-end') && styles.CalendarDay__no_selected_start_before_selected_end, modifiers.has('selected-start-in-hovered-span') && styles.CalendarDay__selected_start_in_hovered_span, modifiers.has('selected-end-in-hovered-span') && styles.CalendarDay__selected_end_in_hovered_span, modifiers.has('selected-start-no-selected-end') && styles.CalendarDay__selected_start_no_selected_end, modifiers.has('selected-end-no-selected-start') && styles.CalendarDay__selected_end_no_selected_start, isOutsideRange && styles.CalendarDay__blocked_out_of_range, daySizeStyles), {
+        daySizeStyles = _getCalendarDaySettin.daySizeStyles,
+        useDefaultCursor = _getCalendarDaySettin.useDefaultCursor,
+        selected = _getCalendarDaySettin.selected,
+        hoveredSpan = _getCalendarDaySettin.hoveredSpan,
+        isOutsideRange = _getCalendarDaySettin.isOutsideRange,
+        ariaLabel = _getCalendarDaySettin.ariaLabel;
+
+    return _react["default"].createElement("td", (0, _extends2["default"])({}, (0, _reactWithStyles.css)(styles.CalendarDay, useDefaultCursor && styles.CalendarDay__defaultCursor, styles.CalendarDay__default, isOutsideDay && styles.CalendarDay__outside, modifiers.has('today') && styles.CalendarDay__today, modifiers.has('first-day-of-week') && styles.CalendarDay__firstDayOfWeek, modifiers.has('last-day-of-week') && styles.CalendarDay__lastDayOfWeek, modifiers.has('hovered-offset') && styles.CalendarDay__hovered_offset, modifiers.has('hovered-start-first-possible-end') && styles.CalendarDay__hovered_start_first_possible_end, modifiers.has('hovered-start-blocked-minimum-nights') && styles.CalendarDay__hovered_start_blocked_min_nights, modifiers.has('highlighted-calendar') && styles.CalendarDay__highlighted_calendar, modifiers.has('blocked-minimum-nights') && styles.CalendarDay__blocked_minimum_nights, modifiers.has('blocked-calendar') && styles.CalendarDay__blocked_calendar, hoveredSpan && styles.CalendarDay__hovered_span, modifiers.has('after-hovered-start') && styles.CalendarDay__after_hovered_start, modifiers.has('selected-span') && styles.CalendarDay__selected_span, modifiers.has('selected-start') && styles.CalendarDay__selected_start, modifiers.has('selected-end') && styles.CalendarDay__selected_end, selected && !modifiers.has('selected-span') && styles.CalendarDay__selected, modifiers.has('before-hovered-end') && styles.CalendarDay__before_hovered_end, modifiers.has('no-selected-start-before-selected-end') && styles.CalendarDay__no_selected_start_before_selected_end, modifiers.has('selected-start-in-hovered-span') && styles.CalendarDay__selected_start_in_hovered_span, modifiers.has('selected-end-in-hovered-span') && styles.CalendarDay__selected_end_in_hovered_span, modifiers.has('selected-start-no-selected-end') && styles.CalendarDay__selected_start_no_selected_end, modifiers.has('selected-end-no-selected-start') && styles.CalendarDay__selected_end_no_selected_start, isOutsideRange && styles.CalendarDay__blocked_out_of_range, daySizeStyles), {
       role: "button" // eslint-disable-line jsx-a11y/no-noninteractive-element-to-interactive-role
       ,
       ref: this.setButtonRef,
-      "aria-disabled": modifiers.has('blocked')
-    }, modifiers.has('today') ? {
-      'aria-current': 'date'
-    } : {}, {
+      "aria-disabled": modifiers.has('blocked'),
       "aria-label": ariaLabel,
       onMouseEnter: function onMouseEnter(e) {
         _this3.onDayMouseEnter(day, e);
@@ -153,14 +191,18 @@ var CalendarDay = exports.PureCalendarDay = /*#__PURE__*/function (_ref2, _ref) 
       tabIndex: tabIndex
     }), renderDayContents ? renderDayContents(day, modifiers) : day.format('D'));
   };
+
   return CalendarDay;
-}(_react["default"].PureComponent || _react["default"].Component, !_react["default"].PureComponent && "shouldComponentUpdate");
+}(_react["default"].PureComponent || _react["default"].Component);
+
+exports.PureCalendarDay = CalendarDay;
 CalendarDay.propTypes = process.env.NODE_ENV !== "production" ? propTypes : {};
 CalendarDay.defaultProps = defaultProps;
-var _default = exports["default"] = (0, _reactWithStyles.withStyles)(function (_ref3) {
-  var _ref3$reactDates = _ref3.reactDates,
-    color = _ref3$reactDates.color,
-    font = _ref3$reactDates.font;
+
+var _default = (0, _reactWithStyles.withStyles)(function (_ref2) {
+  var _ref2$reactDates = _ref2.reactDates,
+      color = _ref2$reactDates.color,
+      font = _ref2$reactDates.font;
   return {
     CalendarDay: {
       boxSizing: 'border-box',
@@ -321,3 +363,5 @@ var _default = exports["default"] = (0, _reactWithStyles.withStyles)(function (_
 }, {
   pureComponent: typeof _react["default"].PureComponent !== 'undefined'
 })(CalendarDay);
+
+exports["default"] = _default;

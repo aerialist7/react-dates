@@ -25,7 +25,7 @@ var core = {
   yellow: '#ffe8bc',
   yellow_dark: '#ffce71'
 };
-var _default = exports["default"] = {
+var _default = {
   reactDates: {
     zIndex: 0,
     border: {
@@ -180,3 +180,4 @@ var _default = exports["default"] = {
     }
   }
 };
+exports["default"] = _default;

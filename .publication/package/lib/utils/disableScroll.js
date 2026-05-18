@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = disableScroll;
-exports.getScrollAncestorsOverflowY = getScrollAncestorsOverflowY;
 exports.getScrollParent = getScrollParent;
+exports.getScrollAncestorsOverflowY = getScrollAncestorsOverflowY;
+exports["default"] = disableScroll;
+
 var getScrollingRoot = function getScrollingRoot() {
   return document.scrollingElement || document.documentElement;
 };
-
 /**
  * Recursively finds the scroll parent of a node. The scroll parrent of a node
  * is the closest node that is scrollable. A node is scrollable if:
@@ -21,18 +21,23 @@ var getScrollingRoot = function getScrollingRoot() {
  * @param {HTMLElement} node Any DOM element.
  * @return {HTMLElement} The scroll parent element.
  */
+
+
 function getScrollParent(node) {
   var parent = node.parentElement;
   if (parent == null) return getScrollingRoot();
+
   var _window$getComputedSt = window.getComputedStyle(parent),
-    overflowY = _window$getComputedSt.overflowY;
+      overflowY = _window$getComputedSt.overflowY;
+
   var canScroll = overflowY !== 'visible' && overflowY !== 'hidden';
+
   if (canScroll && parent.scrollHeight > parent.clientHeight) {
     return parent;
   }
+
   return getScrollParent(parent);
 }
-
 /**
  * Recursively traverses the tree upwards from the given node, capturing all
  * ancestor nodes that scroll along with their current 'overflow-y' CSS
@@ -42,6 +47,8 @@ function getScrollParent(node) {
  * @param {Map<HTMLElement,string>} [acc] Accumulator map.
  * @return {Map<HTMLElement,string>} Map of ancestors with their 'overflow-y' value.
  */
+
+
 function getScrollAncestorsOverflowY(node) {
   var acc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Map();
   var scrollingRoot = getScrollingRoot();
@@ -50,7 +57,6 @@ function getScrollAncestorsOverflowY(node) {
   if (scrollParent === scrollingRoot) return acc;
   return getScrollAncestorsOverflowY(scrollParent, acc);
 }
-
 /**
  * Disabling the scroll on a node involves finding all the scrollable ancestors
  * and set their 'overflow-y' CSS property to 'hidden'. When all ancestors have
@@ -61,13 +67,17 @@ function getScrollAncestorsOverflowY(node) {
  *
  * @param {HTMLElement} node Any DOM element.
  */
+
+
 function disableScroll(node) {
   var scrollAncestorsOverflowY = getScrollAncestorsOverflowY(node);
+
   var toggle = function toggle(on) {
     return scrollAncestorsOverflowY.forEach(function (overflowY, ancestor) {
       ancestor.style.setProperty('overflow-y', on ? 'hidden' : overflowY);
     });
   };
+
   toggle(true);
   return function () {
     return toggle(false);

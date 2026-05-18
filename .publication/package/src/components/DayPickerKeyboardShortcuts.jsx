@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { forbidExtraProps } from 'airbnb-prop-types';
-import { withStyles, withStylesPropTypes } from 'react-with-styles';
+import { css, withStyles, withStylesPropTypes } from 'react-with-styles';
 
 import { DayPickerKeyboardShortcutsPhrases } from '../defaultPhrases';
 import getPhrasePropTypes from '../utils/getPhrasePropTypes';
@@ -102,14 +102,6 @@ class DayPickerKeyboardShortcuts extends React.PureComponent {
     this.handleFocus();
   }
 
-  handleFocus() {
-    if (this.hideKeyboardShortcutsButton) {
-      // automatically move focus into the dialog by moving
-      // to the only interactive element, the hide button
-      this.hideKeyboardShortcutsButton.focus();
-    }
-  }
-
   onKeyDown(e) {
     e.stopPropagation();
 
@@ -160,13 +152,20 @@ class DayPickerKeyboardShortcuts extends React.PureComponent {
     this.hideKeyboardShortcutsButton = ref;
   }
 
+  handleFocus() {
+    if (this.hideKeyboardShortcutsButton) {
+      // automatically move focus into the dialog by moving
+      // to the only interactive element, the hide button
+      this.hideKeyboardShortcutsButton.focus();
+    }
+  }
+
   render() {
     const {
       block,
       buttonLocation,
       showKeyboardShortcutsPanel,
       closeKeyboardShortcutsPanel,
-      css,
       styles,
       phrases,
       renderKeyboardShortcutsButton,
@@ -215,7 +214,7 @@ class DayPickerKeyboardShortcuts extends React.PureComponent {
                 topLeft && styles.DayPickerKeyboardShortcuts_showSpan__topLeft,
               )}
             >
-              ?
+            ?
             </span>
           </button>
         )}

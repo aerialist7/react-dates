@@ -1,25 +1,41 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+
 var _propTypes = _interopRequireDefault(require("prop-types"));
+
 var _reactMomentProptypes = _interopRequireDefault(require("react-moment-proptypes"));
+
 var _airbnbPropTypes = require("airbnb-prop-types");
+
 var _defaultPhrases = require("../defaultPhrases");
+
 var _getPhrasePropTypes = _interopRequireDefault(require("../utils/getPhrasePropTypes"));
+
 var _FocusedInputShape = _interopRequireDefault(require("./FocusedInputShape"));
+
 var _IconPositionShape = _interopRequireDefault(require("./IconPositionShape"));
+
 var _OrientationShape = _interopRequireDefault(require("./OrientationShape"));
+
 var _DisabledShape = _interopRequireDefault(require("./DisabledShape"));
+
 var _AnchorDirectionShape = _interopRequireDefault(require("./AnchorDirectionShape"));
+
 var _OpenDirectionShape = _interopRequireDefault(require("./OpenDirectionShape"));
+
 var _DayOfWeekShape = _interopRequireDefault(require("./DayOfWeekShape"));
+
 var _CalendarInfoPositionShape = _interopRequireDefault(require("./CalendarInfoPositionShape"));
+
 var _NavPositionShape = _interopRequireDefault(require("./NavPositionShape"));
-var _default = exports["default"] = {
+
+var _default = {
   // required props for a functional interactive DateRangePicker
   startDate: _reactMomentProptypes["default"].momentObj,
   endDate: _reactMomentProptypes["default"].momentObj,
@@ -36,8 +52,6 @@ var _default = exports["default"] = {
   endDatePlaceholderText: _propTypes["default"].string,
   startDateAriaLabel: _propTypes["default"].string,
   endDateAriaLabel: _propTypes["default"].string,
-  startDateTitleText: _propTypes["default"].string,
-  endDateTitleText: _propTypes["default"].string,
   disabled: _DisabledShape["default"],
   required: _propTypes["default"].bool,
   readOnly: _propTypes["default"].bool,
@@ -53,7 +67,6 @@ var _default = exports["default"] = {
   small: _propTypes["default"].bool,
   regular: _propTypes["default"].bool,
   keepFocusOnInput: _propTypes["default"].bool,
-  autoComplete: _propTypes["default"].string,
   // calendar presentation and interaction related props
   renderMonthText: (0, _airbnbPropTypes.mutuallyExclusiveProps)(_propTypes["default"].func, 'renderMonthText', 'renderMonthElement'),
   renderMonthElement: (0, _airbnbPropTypes.mutuallyExclusiveProps)(_propTypes["default"].func, 'renderMonthText', 'renderMonthElement'),
@@ -106,3 +119,4 @@ var _default = exports["default"] = {
   phrases: _propTypes["default"].shape((0, _getPhrasePropTypes["default"])(_defaultPhrases.DateRangePickerPhrases)),
   dayAriaLabelFormat: _propTypes["default"].string
 };
+exports["default"] = _default;

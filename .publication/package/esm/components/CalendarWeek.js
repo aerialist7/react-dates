@@ -6,6 +6,6 @@ var propTypes = process.env.NODE_ENV !== "production" ? forbidExtraProps({
 }) : {};
 export default function CalendarWeek(_ref) {
   var children = _ref.children;
-  return /*#__PURE__*/React.createElement("tr", null, children);
+  return React.createElement("tr", null, children);
 }
 CalendarWeek.propTypes = process.env.NODE_ENV !== "production" ? propTypes : {};

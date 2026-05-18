@@ -1,18 +1,21 @@
 import _extends from "@babel/runtime/helpers/esm/extends";
+import _assertThisInitialized from "@babel/runtime/helpers/esm/assertThisInitialized";
 import _inheritsLoose from "@babel/runtime/helpers/esm/inheritsLoose";
 import _defineProperty from "@babel/runtime/helpers/esm/defineProperty";
 import shallowEqual from "enzyme-shallow-equal";
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 import React from 'react';
 import moment from 'moment';
-import { withStyles, withStylesPropTypes } from 'react-with-styles';
+import { css, withStyles, withStylesPropTypes } from 'react-with-styles';
 import { Portal } from 'react-portal';
 import { forbidExtraProps } from 'airbnb-prop-types';
 import { addEventListener } from 'consolidated-events';
 import isTouchDevice from 'is-touch-device';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { darken } from 'color2k';
 import DateRangePickerShape from '../shapes/DateRangePickerShape';
 import { DateRangePickerPhrases } from '../defaultPhrases';
 import getResponsiveContainerStyles from '../utils/getResponsiveContainerStyles';
@@ -25,7 +28,7 @@ import DateRangePickerInputController from './DateRangePickerInputController';
 import DayPickerRangeController from './DayPickerRangeController';
 import CloseButton from './CloseButton';
 import { START_DATE, END_DATE, HORIZONTAL_ORIENTATION, VERTICAL_ORIENTATION, ANCHOR_LEFT, ANCHOR_RIGHT, OPEN_DOWN, OPEN_UP, DAY_SIZE, ICON_BEFORE_POSITION, INFO_POSITION_BOTTOM, FANG_HEIGHT_PX, DEFAULT_VERTICAL_SPACING, NAV_POSITION_TOP } from '../constants';
-var propTypes = process.env.NODE_ENV !== "production" ? forbidExtraProps(_objectSpread(_objectSpread({}, withStylesPropTypes), DateRangePickerShape)) : {};
+var propTypes = process.env.NODE_ENV !== "production" ? forbidExtraProps(_objectSpread({}, withStylesPropTypes, {}, DateRangePickerShape)) : {};
 var defaultProps = {
   // required props for a functional interactive DateRangePicker
   startDate: null,
@@ -36,8 +39,6 @@ var defaultProps = {
   endDatePlaceholderText: 'End Date',
   startDateAriaLabel: undefined,
   endDateAriaLabel: undefined,
-  startDateTitleText: undefined,
-  endDateTitleText: undefined,
   startDateOffset: undefined,
   endDateOffset: undefined,
   disabled: false,
@@ -79,7 +80,6 @@ var defaultProps = {
   verticalHeight: null,
   transitionDuration: undefined,
   verticalSpacing: DEFAULT_VERTICAL_SPACING,
-  autoComplete: 'off',
   horizontalMonthPadding: undefined,
   // navigation related props
   dayPickerNavigationInlineStyles: null,
@@ -117,10 +117,22 @@ var defaultProps = {
   phrases: DateRangePickerPhrases,
   dayAriaLabelFormat: undefined
 };
-var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
+
+var DateRangePicker =
+/*#__PURE__*/
+function (_ref) {
+  _inheritsLoose(DateRangePicker, _ref);
+
+  var _proto = DateRangePicker.prototype;
+
+  _proto[!React.PureComponent && "shouldComponentUpdate"] = function (nextProps, nextState) {
+    return !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
+  };
+
   function DateRangePicker(props) {
     var _this;
-    _this = _ref2.call(this, props) || this;
+
+    _this = _ref.call(this, props) || this;
     _this.state = {
       dayPickerContainerStyles: {},
       isDateRangePickerInputFocused: false,
@@ -128,23 +140,19 @@ var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
       showKeyboardShortcuts: false
     };
     _this.isTouchDevice = false;
-    _this.onOutsideClick = _this.onOutsideClick.bind(_this);
-    _this.onDateRangePickerInputFocus = _this.onDateRangePickerInputFocus.bind(_this);
-    _this.onDayPickerFocus = _this.onDayPickerFocus.bind(_this);
-    _this.onDayPickerFocusOut = _this.onDayPickerFocusOut.bind(_this);
-    _this.onDayPickerBlur = _this.onDayPickerBlur.bind(_this);
-    _this.showKeyboardShortcutsPanel = _this.showKeyboardShortcutsPanel.bind(_this);
-    _this.responsivizePickerPosition = _this.responsivizePickerPosition.bind(_this);
-    _this.disableScroll = _this.disableScroll.bind(_this);
-    _this.setDayPickerContainerRef = _this.setDayPickerContainerRef.bind(_this);
-    _this.setContainerRef = _this.setContainerRef.bind(_this);
+    _this.onOutsideClick = _this.onOutsideClick.bind(_assertThisInitialized(_this));
+    _this.onDateRangePickerInputFocus = _this.onDateRangePickerInputFocus.bind(_assertThisInitialized(_this));
+    _this.onDayPickerFocus = _this.onDayPickerFocus.bind(_assertThisInitialized(_this));
+    _this.onDayPickerFocusOut = _this.onDayPickerFocusOut.bind(_assertThisInitialized(_this));
+    _this.onDayPickerBlur = _this.onDayPickerBlur.bind(_assertThisInitialized(_this));
+    _this.showKeyboardShortcutsPanel = _this.showKeyboardShortcutsPanel.bind(_assertThisInitialized(_this));
+    _this.responsivizePickerPosition = _this.responsivizePickerPosition.bind(_assertThisInitialized(_this));
+    _this.disableScroll = _this.disableScroll.bind(_assertThisInitialized(_this));
+    _this.setDayPickerContainerRef = _this.setDayPickerContainerRef.bind(_assertThisInitialized(_this));
+    _this.setContainerRef = _this.setContainerRef.bind(_assertThisInitialized(_this));
     return _this;
   }
-  _inheritsLoose(DateRangePicker, _ref2);
-  var _proto = DateRangePicker.prototype;
-  _proto[_ref] = function (nextProps, nextState) {
-    return !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
-  };
+
   _proto.componentDidMount = function componentDidMount() {
     this.removeEventListener = addEventListener(window, 'resize', this.responsivizePickerPosition, {
       passive: true
@@ -152,15 +160,19 @@ var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
     this.responsivizePickerPosition();
     this.disableScroll();
     var focusedInput = this.props.focusedInput;
+
     if (focusedInput) {
       this.setState({
         isDateRangePickerInputFocused: true
       });
     }
+
     this.isTouchDevice = isTouchDevice();
   };
+
   _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
     var focusedInput = this.props.focusedInput;
+
     if (!prevProps.focusedInput && focusedInput && this.isOpened()) {
       // The date picker just changed from being closed to being open.
       this.responsivizePickerPosition();
@@ -170,18 +182,20 @@ var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
       if (this.enableScroll) this.enableScroll();
     }
   };
+
   _proto.componentWillUnmount = function componentWillUnmount() {
     this.removeDayPickerEventListeners();
     if (this.removeEventListener) this.removeEventListener();
     if (this.enableScroll) this.enableScroll();
   };
+
   _proto.onOutsideClick = function onOutsideClick(event) {
     var _this$props = this.props,
-      onFocusChange = _this$props.onFocusChange,
-      onClose = _this$props.onClose,
-      startDate = _this$props.startDate,
-      endDate = _this$props.endDate,
-      appendToBody = _this$props.appendToBody;
+        onFocusChange = _this$props.onFocusChange,
+        onClose = _this$props.onClose,
+        startDate = _this$props.startDate,
+        endDate = _this$props.endDate,
+        appendToBody = _this$props.appendToBody;
     if (!this.isOpened()) return;
     if (appendToBody && this.dayPickerContainer.contains(event.target)) return;
     this.setState({
@@ -195,28 +209,33 @@ var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
       endDate: endDate
     });
   };
+
   _proto.onDateRangePickerInputFocus = function onDateRangePickerInputFocus(focusedInput) {
     var _this$props2 = this.props,
-      onFocusChange = _this$props2.onFocusChange,
-      readOnly = _this$props2.readOnly,
-      withPortal = _this$props2.withPortal,
-      withFullScreenPortal = _this$props2.withFullScreenPortal,
-      keepFocusOnInput = _this$props2.keepFocusOnInput;
+        onFocusChange = _this$props2.onFocusChange,
+        readOnly = _this$props2.readOnly,
+        withPortal = _this$props2.withPortal,
+        withFullScreenPortal = _this$props2.withFullScreenPortal,
+        keepFocusOnInput = _this$props2.keepFocusOnInput;
+
     if (focusedInput) {
       var withAnyPortal = withPortal || withFullScreenPortal;
       var moveFocusToDayPicker = withAnyPortal || readOnly && !keepFocusOnInput || this.isTouchDevice && !keepFocusOnInput;
+
       if (moveFocusToDayPicker) {
         this.onDayPickerFocus();
       } else {
         this.onDayPickerBlur();
       }
     }
+
     onFocusChange(focusedInput);
   };
+
   _proto.onDayPickerFocus = function onDayPickerFocus() {
     var _this$props3 = this.props,
-      focusedInput = _this$props3.focusedInput,
-      onFocusChange = _this$props3.onFocusChange;
+        focusedInput = _this$props3.focusedInput,
+        onFocusChange = _this$props3.onFocusChange;
     if (!focusedInput) onFocusChange(START_DATE);
     this.setState({
       isDateRangePickerInputFocused: false,
@@ -224,6 +243,7 @@ var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
       showKeyboardShortcuts: false
     });
   };
+
   _proto.onDayPickerFocusOut = function onDayPickerFocusOut(event) {
     // In cases where **relatedTarget** is not null, it points to the right
     // element here. However, in cases where it is null (such as clicking on a
@@ -235,6 +255,7 @@ var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
     if (this.dayPickerContainer.contains(relatedTarget)) return;
     this.onOutsideClick(event);
   };
+
   _proto.onDayPickerBlur = function onDayPickerBlur() {
     this.setState({
       isDateRangePickerInputFocused: true,
@@ -242,6 +263,7 @@ var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
       showKeyboardShortcuts: false
     });
   };
+
   _proto.setDayPickerContainerRef = function setDayPickerContainerRef(ref) {
     if (ref === this.dayPickerContainer) return;
     if (this.dayPickerContainer) this.removeDayPickerEventListeners();
@@ -249,9 +271,11 @@ var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
     if (!ref) return;
     this.addDayPickerEventListeners();
   };
+
   _proto.setContainerRef = function setContainerRef(ref) {
     this.container = ref;
   };
+
   _proto.addDayPickerEventListeners = function addDayPickerEventListeners() {
     // NOTE: We are using a manual event listener here, because React doesn't
     // provide FocusOut, while blur and keydown don't provide the information
@@ -261,54 +285,62 @@ var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
     // - https://github.com/facebook/react/issues/6410
     this.removeDayPickerFocusOut = addEventListener(this.dayPickerContainer, 'focusout', this.onDayPickerFocusOut);
   };
+
   _proto.removeDayPickerEventListeners = function removeDayPickerEventListeners() {
     if (this.removeDayPickerFocusOut) this.removeDayPickerFocusOut();
   };
+
   _proto.isOpened = function isOpened() {
     var focusedInput = this.props.focusedInput;
     return focusedInput === START_DATE || focusedInput === END_DATE;
   };
+
   _proto.disableScroll = function disableScroll() {
     var _this$props4 = this.props,
-      appendToBody = _this$props4.appendToBody,
-      propDisableScroll = _this$props4.disableScroll;
+        appendToBody = _this$props4.appendToBody,
+        propDisableScroll = _this$props4.disableScroll;
     if (!appendToBody && !propDisableScroll) return;
-    if (!this.isOpened()) return;
-
-    // Disable scroll for every ancestor of this DateRangePicker up to the
+    if (!this.isOpened()) return; // Disable scroll for every ancestor of this DateRangePicker up to the
     // document level. This ensures the input and the picker never move. Other
     // sibling elements or the picker itself can scroll.
+
     this.enableScroll = _disableScroll(this.container);
   };
+
   _proto.responsivizePickerPosition = function responsivizePickerPosition() {
     // It's possible the portal props have been changed in response to window resizes
     // So let's ensure we reset this back to the base state each time
     var dayPickerContainerStyles = this.state.dayPickerContainerStyles;
+
     if (Object.keys(dayPickerContainerStyles).length > 0) {
       this.setState({
         dayPickerContainerStyles: {}
       });
     }
+
     if (!this.isOpened()) {
       return;
     }
+
     var _this$props5 = this.props,
-      openDirection = _this$props5.openDirection,
-      anchorDirection = _this$props5.anchorDirection,
-      horizontalMargin = _this$props5.horizontalMargin,
-      withPortal = _this$props5.withPortal,
-      withFullScreenPortal = _this$props5.withFullScreenPortal,
-      appendToBody = _this$props5.appendToBody;
+        openDirection = _this$props5.openDirection,
+        anchorDirection = _this$props5.anchorDirection,
+        horizontalMargin = _this$props5.horizontalMargin,
+        withPortal = _this$props5.withPortal,
+        withFullScreenPortal = _this$props5.withFullScreenPortal,
+        appendToBody = _this$props5.appendToBody;
     var isAnchoredLeft = anchorDirection === ANCHOR_LEFT;
+
     if (!withPortal && !withFullScreenPortal) {
       var containerRect = this.dayPickerContainer.getBoundingClientRect();
       var currentOffset = dayPickerContainerStyles[anchorDirection] || 0;
       var containerEdge = isAnchoredLeft ? containerRect[ANCHOR_RIGHT] : containerRect[ANCHOR_LEFT];
       this.setState({
-        dayPickerContainerStyles: _objectSpread(_objectSpread({}, getResponsiveContainerStyles(anchorDirection, currentOffset, containerEdge, horizontalMargin)), appendToBody && getDetachedContainerStyles(openDirection, anchorDirection, this.container))
+        dayPickerContainerStyles: _objectSpread({}, getResponsiveContainerStyles(anchorDirection, currentOffset, containerEdge, horizontalMargin), {}, appendToBody && getDetachedContainerStyles(openDirection, anchorDirection, this.container))
       });
     }
   };
+
   _proto.showKeyboardShortcutsPanel = function showKeyboardShortcutsPanel() {
     this.setState({
       isDateRangePickerInputFocused: false,
@@ -316,94 +348,99 @@ var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
       showKeyboardShortcuts: true
     });
   };
+
   _proto.maybeRenderDayPickerWithPortal = function maybeRenderDayPickerWithPortal() {
     var _this$props6 = this.props,
-      withPortal = _this$props6.withPortal,
-      withFullScreenPortal = _this$props6.withFullScreenPortal,
-      appendToBody = _this$props6.appendToBody;
+        withPortal = _this$props6.withPortal,
+        withFullScreenPortal = _this$props6.withFullScreenPortal,
+        appendToBody = _this$props6.appendToBody;
+
     if (!this.isOpened()) {
       return null;
     }
+
     if (withPortal || withFullScreenPortal || appendToBody) {
-      return /*#__PURE__*/React.createElement(Portal, null, this.renderDayPicker());
+      return React.createElement(Portal, null, this.renderDayPicker());
     }
+
     return this.renderDayPicker();
   };
+
   _proto.renderDayPicker = function renderDayPicker() {
     var _this$props7 = this.props,
-      anchorDirection = _this$props7.anchorDirection,
-      openDirection = _this$props7.openDirection,
-      isDayBlocked = _this$props7.isDayBlocked,
-      isDayHighlighted = _this$props7.isDayHighlighted,
-      isOutsideRange = _this$props7.isOutsideRange,
-      numberOfMonths = _this$props7.numberOfMonths,
-      orientation = _this$props7.orientation,
-      monthFormat = _this$props7.monthFormat,
-      renderMonthText = _this$props7.renderMonthText,
-      renderWeekHeaderElement = _this$props7.renderWeekHeaderElement,
-      dayPickerNavigationInlineStyles = _this$props7.dayPickerNavigationInlineStyles,
-      navPosition = _this$props7.navPosition,
-      navPrev = _this$props7.navPrev,
-      navNext = _this$props7.navNext,
-      renderNavPrevButton = _this$props7.renderNavPrevButton,
-      renderNavNextButton = _this$props7.renderNavNextButton,
-      onPrevMonthClick = _this$props7.onPrevMonthClick,
-      onNextMonthClick = _this$props7.onNextMonthClick,
-      onDatesChange = _this$props7.onDatesChange,
-      onFocusChange = _this$props7.onFocusChange,
-      withPortal = _this$props7.withPortal,
-      withFullScreenPortal = _this$props7.withFullScreenPortal,
-      daySize = _this$props7.daySize,
-      enableOutsideDays = _this$props7.enableOutsideDays,
-      focusedInput = _this$props7.focusedInput,
-      startDate = _this$props7.startDate,
-      startDateOffset = _this$props7.startDateOffset,
-      endDate = _this$props7.endDate,
-      endDateOffset = _this$props7.endDateOffset,
-      minDate = _this$props7.minDate,
-      maxDate = _this$props7.maxDate,
-      minimumNights = _this$props7.minimumNights,
-      keepOpenOnDateSelect = _this$props7.keepOpenOnDateSelect,
-      renderCalendarDay = _this$props7.renderCalendarDay,
-      renderDayContents = _this$props7.renderDayContents,
-      renderCalendarInfo = _this$props7.renderCalendarInfo,
-      renderMonthElement = _this$props7.renderMonthElement,
-      calendarInfoPosition = _this$props7.calendarInfoPosition,
-      firstDayOfWeek = _this$props7.firstDayOfWeek,
-      initialVisibleMonth = _this$props7.initialVisibleMonth,
-      hideKeyboardShortcutsPanel = _this$props7.hideKeyboardShortcutsPanel,
-      customCloseIcon = _this$props7.customCloseIcon,
-      onClose = _this$props7.onClose,
-      phrases = _this$props7.phrases,
-      dayAriaLabelFormat = _this$props7.dayAriaLabelFormat,
-      isRTL = _this$props7.isRTL,
-      weekDayFormat = _this$props7.weekDayFormat,
-      css = _this$props7.css,
-      styles = _this$props7.styles,
-      verticalHeight = _this$props7.verticalHeight,
-      noBorder = _this$props7.noBorder,
-      transitionDuration = _this$props7.transitionDuration,
-      verticalSpacing = _this$props7.verticalSpacing,
-      horizontalMonthPadding = _this$props7.horizontalMonthPadding,
-      small = _this$props7.small,
-      disabled = _this$props7.disabled,
-      reactDates = _this$props7.theme.reactDates;
+        anchorDirection = _this$props7.anchorDirection,
+        openDirection = _this$props7.openDirection,
+        isDayBlocked = _this$props7.isDayBlocked,
+        isDayHighlighted = _this$props7.isDayHighlighted,
+        isOutsideRange = _this$props7.isOutsideRange,
+        numberOfMonths = _this$props7.numberOfMonths,
+        orientation = _this$props7.orientation,
+        monthFormat = _this$props7.monthFormat,
+        renderMonthText = _this$props7.renderMonthText,
+        renderWeekHeaderElement = _this$props7.renderWeekHeaderElement,
+        dayPickerNavigationInlineStyles = _this$props7.dayPickerNavigationInlineStyles,
+        navPosition = _this$props7.navPosition,
+        navPrev = _this$props7.navPrev,
+        navNext = _this$props7.navNext,
+        renderNavPrevButton = _this$props7.renderNavPrevButton,
+        renderNavNextButton = _this$props7.renderNavNextButton,
+        onPrevMonthClick = _this$props7.onPrevMonthClick,
+        onNextMonthClick = _this$props7.onNextMonthClick,
+        onDatesChange = _this$props7.onDatesChange,
+        onFocusChange = _this$props7.onFocusChange,
+        withPortal = _this$props7.withPortal,
+        withFullScreenPortal = _this$props7.withFullScreenPortal,
+        daySize = _this$props7.daySize,
+        enableOutsideDays = _this$props7.enableOutsideDays,
+        focusedInput = _this$props7.focusedInput,
+        startDate = _this$props7.startDate,
+        startDateOffset = _this$props7.startDateOffset,
+        endDate = _this$props7.endDate,
+        endDateOffset = _this$props7.endDateOffset,
+        minDate = _this$props7.minDate,
+        maxDate = _this$props7.maxDate,
+        minimumNights = _this$props7.minimumNights,
+        keepOpenOnDateSelect = _this$props7.keepOpenOnDateSelect,
+        renderCalendarDay = _this$props7.renderCalendarDay,
+        renderDayContents = _this$props7.renderDayContents,
+        renderCalendarInfo = _this$props7.renderCalendarInfo,
+        renderMonthElement = _this$props7.renderMonthElement,
+        calendarInfoPosition = _this$props7.calendarInfoPosition,
+        firstDayOfWeek = _this$props7.firstDayOfWeek,
+        initialVisibleMonth = _this$props7.initialVisibleMonth,
+        hideKeyboardShortcutsPanel = _this$props7.hideKeyboardShortcutsPanel,
+        customCloseIcon = _this$props7.customCloseIcon,
+        onClose = _this$props7.onClose,
+        phrases = _this$props7.phrases,
+        dayAriaLabelFormat = _this$props7.dayAriaLabelFormat,
+        isRTL = _this$props7.isRTL,
+        weekDayFormat = _this$props7.weekDayFormat,
+        styles = _this$props7.styles,
+        verticalHeight = _this$props7.verticalHeight,
+        transitionDuration = _this$props7.transitionDuration,
+        verticalSpacing = _this$props7.verticalSpacing,
+        horizontalMonthPadding = _this$props7.horizontalMonthPadding,
+        small = _this$props7.small,
+        disabled = _this$props7.disabled,
+        reactDates = _this$props7.theme.reactDates;
     var _this$state = this.state,
-      dayPickerContainerStyles = _this$state.dayPickerContainerStyles,
-      isDayPickerFocused = _this$state.isDayPickerFocused,
-      showKeyboardShortcuts = _this$state.showKeyboardShortcuts;
+        dayPickerContainerStyles = _this$state.dayPickerContainerStyles,
+        isDayPickerFocused = _this$state.isDayPickerFocused,
+        showKeyboardShortcuts = _this$state.showKeyboardShortcuts;
     var onOutsideClick = !withFullScreenPortal && withPortal ? this.onOutsideClick : undefined;
+
     var initialVisibleMonthThunk = initialVisibleMonth || function () {
       return startDate || endDate || moment();
     };
-    var closeIcon = customCloseIcon || /*#__PURE__*/React.createElement(CloseButton, css(styles.DateRangePicker_closeButton_svg));
+
+    var closeIcon = customCloseIcon || React.createElement(CloseButton, css(styles.DateRangePicker_closeButton_svg));
     var inputHeight = getInputHeight(reactDates, small);
     var withAnyPortal = withPortal || withFullScreenPortal;
-
     /* eslint-disable jsx-a11y/no-static-element-interactions */
+
     /* eslint-disable jsx-a11y/click-events-have-key-events */
-    return /*#__PURE__*/React.createElement("div", _extends({
-      key: "day-picker",
+
+    return React.createElement("div", _extends({
       ref: this.setDayPickerContainerRef
     }, css(styles.DateRangePicker_picker, anchorDirection === ANCHOR_LEFT && styles.DateRangePicker_picker__directionLeft, anchorDirection === ANCHOR_RIGHT && styles.DateRangePicker_picker__directionRight, orientation === HORIZONTAL_ORIENTATION && styles.DateRangePicker_picker__horizontal, orientation === VERTICAL_ORIENTATION && styles.DateRangePicker_picker__vertical, !withAnyPortal && openDirection === OPEN_DOWN && {
       top: inputHeight + verticalSpacing
@@ -411,7 +448,7 @@ var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
       bottom: inputHeight + verticalSpacing
     }, withAnyPortal && styles.DateRangePicker_picker__portal, withFullScreenPortal && styles.DateRangePicker_picker__fullScreenPortal, isRTL && styles.DateRangePicker_picker__rtl, dayPickerContainerStyles), {
       onClick: onOutsideClick
-    }), /*#__PURE__*/React.createElement(DayPickerRangeController, {
+    }), React.createElement(DayPickerRangeController, {
       orientation: orientation,
       enableOutsideDays: enableOutsideDays,
       numberOfMonths: numberOfMonths,
@@ -459,79 +496,72 @@ var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
       firstDayOfWeek: firstDayOfWeek,
       weekDayFormat: weekDayFormat,
       verticalHeight: verticalHeight,
-      noBorder: noBorder,
       transitionDuration: transitionDuration,
       disabled: disabled,
       horizontalMonthPadding: horizontalMonthPadding
-    }), withFullScreenPortal && /*#__PURE__*/React.createElement("button", _extends({}, css(styles.DateRangePicker_closeButton), {
+    }), withFullScreenPortal && React.createElement("button", _extends({}, css(styles.DateRangePicker_closeButton), {
       type: "button",
       onClick: this.onOutsideClick,
-      "aria-label": phrases.closeDatePicker,
-      tabIndex: "-1"
+      "aria-label": phrases.closeDatePicker
     }), closeIcon));
     /* eslint-enable jsx-a11y/no-static-element-interactions */
+
     /* eslint-enable jsx-a11y/click-events-have-key-events */
   };
+
   _proto.render = function render() {
     var _this$props8 = this.props,
-      startDate = _this$props8.startDate,
-      startDateId = _this$props8.startDateId,
-      startDatePlaceholderText = _this$props8.startDatePlaceholderText,
-      startDateAriaLabel = _this$props8.startDateAriaLabel,
-      startDateTitleText = _this$props8.startDateTitleText,
-      endDate = _this$props8.endDate,
-      endDateId = _this$props8.endDateId,
-      endDatePlaceholderText = _this$props8.endDatePlaceholderText,
-      endDateAriaLabel = _this$props8.endDateAriaLabel,
-      endDateTitleText = _this$props8.endDateTitleText,
-      focusedInput = _this$props8.focusedInput,
-      screenReaderInputMessage = _this$props8.screenReaderInputMessage,
-      showClearDates = _this$props8.showClearDates,
-      showDefaultInputIcon = _this$props8.showDefaultInputIcon,
-      inputIconPosition = _this$props8.inputIconPosition,
-      customInputIcon = _this$props8.customInputIcon,
-      customArrowIcon = _this$props8.customArrowIcon,
-      customCloseIcon = _this$props8.customCloseIcon,
-      disabled = _this$props8.disabled,
-      required = _this$props8.required,
-      readOnly = _this$props8.readOnly,
-      autoComplete = _this$props8.autoComplete,
-      openDirection = _this$props8.openDirection,
-      phrases = _this$props8.phrases,
-      isOutsideRange = _this$props8.isOutsideRange,
-      isDayBlocked = _this$props8.isDayBlocked,
-      minimumNights = _this$props8.minimumNights,
-      withPortal = _this$props8.withPortal,
-      withFullScreenPortal = _this$props8.withFullScreenPortal,
-      displayFormat = _this$props8.displayFormat,
-      reopenPickerOnClearDates = _this$props8.reopenPickerOnClearDates,
-      keepOpenOnDateSelect = _this$props8.keepOpenOnDateSelect,
-      onDatesChange = _this$props8.onDatesChange,
-      onClose = _this$props8.onClose,
-      isRTL = _this$props8.isRTL,
-      noBorder = _this$props8.noBorder,
-      block = _this$props8.block,
-      verticalSpacing = _this$props8.verticalSpacing,
-      small = _this$props8.small,
-      regular = _this$props8.regular,
-      css = _this$props8.css,
-      styles = _this$props8.styles;
+        startDate = _this$props8.startDate,
+        startDateId = _this$props8.startDateId,
+        startDatePlaceholderText = _this$props8.startDatePlaceholderText,
+        startDateAriaLabel = _this$props8.startDateAriaLabel,
+        endDate = _this$props8.endDate,
+        endDateId = _this$props8.endDateId,
+        endDatePlaceholderText = _this$props8.endDatePlaceholderText,
+        endDateAriaLabel = _this$props8.endDateAriaLabel,
+        focusedInput = _this$props8.focusedInput,
+        screenReaderInputMessage = _this$props8.screenReaderInputMessage,
+        showClearDates = _this$props8.showClearDates,
+        showDefaultInputIcon = _this$props8.showDefaultInputIcon,
+        inputIconPosition = _this$props8.inputIconPosition,
+        customInputIcon = _this$props8.customInputIcon,
+        customArrowIcon = _this$props8.customArrowIcon,
+        customCloseIcon = _this$props8.customCloseIcon,
+        disabled = _this$props8.disabled,
+        required = _this$props8.required,
+        readOnly = _this$props8.readOnly,
+        openDirection = _this$props8.openDirection,
+        phrases = _this$props8.phrases,
+        isOutsideRange = _this$props8.isOutsideRange,
+        minimumNights = _this$props8.minimumNights,
+        withPortal = _this$props8.withPortal,
+        withFullScreenPortal = _this$props8.withFullScreenPortal,
+        displayFormat = _this$props8.displayFormat,
+        reopenPickerOnClearDates = _this$props8.reopenPickerOnClearDates,
+        keepOpenOnDateSelect = _this$props8.keepOpenOnDateSelect,
+        onDatesChange = _this$props8.onDatesChange,
+        onClose = _this$props8.onClose,
+        isRTL = _this$props8.isRTL,
+        noBorder = _this$props8.noBorder,
+        block = _this$props8.block,
+        verticalSpacing = _this$props8.verticalSpacing,
+        small = _this$props8.small,
+        regular = _this$props8.regular,
+        styles = _this$props8.styles;
     var isDateRangePickerInputFocused = this.state.isDateRangePickerInputFocused;
     var enableOutsideClick = !withPortal && !withFullScreenPortal;
     var hideFang = verticalSpacing < FANG_HEIGHT_PX;
-    var input = /*#__PURE__*/React.createElement(DateRangePickerInputController, {
+    var input = React.createElement(DateRangePickerInputController, {
       startDate: startDate,
       startDateId: startDateId,
       startDatePlaceholderText: startDatePlaceholderText,
       isStartDateFocused: focusedInput === START_DATE,
       startDateAriaLabel: startDateAriaLabel,
-      startDateTitleText: startDateTitleText,
       endDate: endDate,
       endDateId: endDateId,
       endDatePlaceholderText: endDatePlaceholderText,
       isEndDateFocused: focusedInput === END_DATE,
       endDateAriaLabel: endDateAriaLabel,
-      endDateTitleText: endDateTitleText,
       displayFormat: displayFormat,
       showClearDates: showClearDates,
       showCaret: !withPortal && !withFullScreenPortal && !hideFang,
@@ -547,7 +577,6 @@ var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
       reopenPickerOnClearDates: reopenPickerOnClearDates,
       keepOpenOnDateSelect: keepOpenOnDateSelect,
       isOutsideRange: isOutsideRange,
-      isDayBlocked: isDayBlocked,
       minimumNights: minimumNights,
       withFullScreenPortal: withFullScreenPortal,
       onDatesChange: onDatesChange,
@@ -563,24 +592,25 @@ var DateRangePicker = /*#__PURE__*/function (_ref2, _ref) {
       block: block,
       small: small,
       regular: regular,
-      verticalSpacing: verticalSpacing,
-      autoComplete: autoComplete
+      verticalSpacing: verticalSpacing
     }, this.maybeRenderDayPickerWithPortal());
-    return /*#__PURE__*/React.createElement("div", _extends({
+    return React.createElement("div", _extends({
       ref: this.setContainerRef
-    }, css(styles.DateRangePicker, block && styles.DateRangePicker__block)), enableOutsideClick && /*#__PURE__*/React.createElement(OutsideClickHandler, {
+    }, css(styles.DateRangePicker, block && styles.DateRangePicker__block)), enableOutsideClick && React.createElement(OutsideClickHandler, {
       onOutsideClick: this.onOutsideClick
     }, input), enableOutsideClick || input);
   };
+
   return DateRangePicker;
-}(React.PureComponent || React.Component, !React.PureComponent && "shouldComponentUpdate");
+}(React.PureComponent || React.Component);
+
 DateRangePicker.propTypes = process.env.NODE_ENV !== "production" ? propTypes : {};
 DateRangePicker.defaultProps = defaultProps;
 export { DateRangePicker as PureDateRangePicker };
-export default withStyles(function (_ref3) {
-  var _ref3$reactDates = _ref3.reactDates,
-    color = _ref3$reactDates.color,
-    zIndex = _ref3$reactDates.zIndex;
+export default withStyles(function (_ref2) {
+  var _ref2$reactDates = _ref2.reactDates,
+      color = _ref2$reactDates.color,
+      zIndex = _ref2$reactDates.zIndex;
   return {
     DateRangePicker: {
       position: 'relative',
@@ -628,11 +658,11 @@ export default withStyles(function (_ref3) {
       padding: 15,
       zIndex: zIndex + 2,
       ':hover': {
-        color: darken(color.core.grayLighter, 0.1),
+        color: "darken(".concat(color.core.grayLighter, ", 10%)"),
         textDecoration: 'none'
       },
       ':focus': {
-        color: darken(color.core.grayLighter, 0.1),
+        color: "darken(".concat(color.core.grayLighter, ", 10%)"),
         textDecoration: 'none'
       }
     },

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { forbidExtraProps } from 'airbnb-prop-types';
-import { withStyles, withStylesPropTypes } from 'react-with-styles';
+import { css, withStyles, withStylesPropTypes } from 'react-with-styles';
 
 import { DayPickerNavigationPhrases } from '../defaultPhrases';
 import getPhrasePropTypes from '../utils/getPhrasePropTypes';
@@ -84,7 +84,6 @@ class DayPickerNavigation extends React.PureComponent {
       renderNavNextButton,
       showNavPrevButton,
       showNavNextButton,
-      css,
       styles,
     } = this.props;
 

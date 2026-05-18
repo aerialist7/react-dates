@@ -25,34 +25,42 @@ var moveFocustoStartAndEndOfWeek = 'Go to the first or last day of a week.';
 var returnFocusToInput = 'Return to the date input field.';
 var keyboardForwardNavigationInstructions = 'Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.';
 var keyboardBackwardNavigationInstructions = 'Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.';
+
 var chooseAvailableStartDate = function chooseAvailableStartDate(_ref) {
   var date = _ref.date;
   return "Choose ".concat(date, " as your check-in date. It\u2019s available.");
 };
+
 var chooseAvailableEndDate = function chooseAvailableEndDate(_ref2) {
   var date = _ref2.date;
   return "Choose ".concat(date, " as your check-out date. It\u2019s available.");
 };
+
 var chooseAvailableDate = function chooseAvailableDate(_ref3) {
   var date = _ref3.date;
   return date;
 };
+
 var dateIsUnavailable = function dateIsUnavailable(_ref4) {
   var date = _ref4.date;
   return "Not available. ".concat(date);
 };
+
 var dateIsSelected = function dateIsSelected(_ref5) {
   var date = _ref5.date;
   return "Selected. ".concat(date);
 };
+
 var dateIsSelectedAsStartDate = function dateIsSelectedAsStartDate(_ref6) {
   var date = _ref6.date;
   return "Selected as start date. ".concat(date);
 };
+
 var dateIsSelectedAsEndDate = function dateIsSelectedAsEndDate(_ref7) {
   var date = _ref7.date;
   return "Selected as end date. ".concat(date);
 };
+
 export default {
   calendarLabel: calendarLabel,
   roleDescription: roleDescription,

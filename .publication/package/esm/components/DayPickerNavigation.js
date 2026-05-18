@@ -3,12 +3,15 @@ import _toConsumableArray from "@babel/runtime/helpers/esm/toConsumableArray";
 import _inheritsLoose from "@babel/runtime/helpers/esm/inheritsLoose";
 import _defineProperty from "@babel/runtime/helpers/esm/defineProperty";
 import shallowEqual from "enzyme-shallow-equal";
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { forbidExtraProps } from 'airbnb-prop-types';
-import { withStyles, withStylesPropTypes } from 'react-with-styles';
+import { css, withStyles, withStylesPropTypes } from 'react-with-styles';
 import { DayPickerNavigationPhrases } from '../defaultPhrases';
 import getPhrasePropTypes from '../utils/getPhrasePropTypes';
 import noflip from '../utils/noflip';
@@ -19,7 +22,7 @@ import ChevronDown from './ChevronDown';
 import NavPositionShape from '../shapes/NavPositionShape';
 import ScrollableOrientationShape from '../shapes/ScrollableOrientationShape';
 import { HORIZONTAL_ORIENTATION, NAV_POSITION_BOTTOM, NAV_POSITION_TOP, VERTICAL_SCROLLABLE } from '../constants';
-var propTypes = process.env.NODE_ENV !== "production" ? forbidExtraProps(_objectSpread(_objectSpread({}, withStylesPropTypes), {}, {
+var propTypes = process.env.NODE_ENV !== "production" ? forbidExtraProps(_objectSpread({}, withStylesPropTypes, {
   disablePrev: PropTypes.bool,
   disableNext: PropTypes.bool,
   inlineStyles: PropTypes.object,
@@ -55,37 +58,45 @@ var defaultProps = {
   showNavPrevButton: true,
   showNavNextButton: true
 };
-var DayPickerNavigation = /*#__PURE__*/function (_ref2, _ref) {
+
+var DayPickerNavigation =
+/*#__PURE__*/
+function (_ref) {
+  _inheritsLoose(DayPickerNavigation, _ref);
+
   function DayPickerNavigation() {
-    return _ref2.apply(this, arguments) || this;
+    return _ref.apply(this, arguments) || this;
   }
-  _inheritsLoose(DayPickerNavigation, _ref2);
+
   var _proto = DayPickerNavigation.prototype;
-  _proto[_ref] = function (nextProps, nextState) {
+
+  _proto[!React.PureComponent && "shouldComponentUpdate"] = function (nextProps, nextState) {
     return !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
   };
+
   _proto.render = function render() {
     var _this$props = this.props,
-      inlineStyles = _this$props.inlineStyles,
-      isRTL = _this$props.isRTL,
-      disablePrev = _this$props.disablePrev,
-      disableNext = _this$props.disableNext,
-      navPosition = _this$props.navPosition,
-      navPrev = _this$props.navPrev,
-      navNext = _this$props.navNext,
-      onPrevMonthClick = _this$props.onPrevMonthClick,
-      onNextMonthClick = _this$props.onNextMonthClick,
-      orientation = _this$props.orientation,
-      phrases = _this$props.phrases,
-      renderNavPrevButton = _this$props.renderNavPrevButton,
-      renderNavNextButton = _this$props.renderNavNextButton,
-      showNavPrevButton = _this$props.showNavPrevButton,
-      showNavNextButton = _this$props.showNavNextButton,
-      css = _this$props.css,
-      styles = _this$props.styles;
+        inlineStyles = _this$props.inlineStyles,
+        isRTL = _this$props.isRTL,
+        disablePrev = _this$props.disablePrev,
+        disableNext = _this$props.disableNext,
+        navPosition = _this$props.navPosition,
+        navPrev = _this$props.navPrev,
+        navNext = _this$props.navNext,
+        onPrevMonthClick = _this$props.onPrevMonthClick,
+        onNextMonthClick = _this$props.onNextMonthClick,
+        orientation = _this$props.orientation,
+        phrases = _this$props.phrases,
+        renderNavPrevButton = _this$props.renderNavPrevButton,
+        renderNavNextButton = _this$props.renderNavNextButton,
+        showNavPrevButton = _this$props.showNavPrevButton,
+        showNavNextButton = _this$props.showNavNextButton,
+        styles = _this$props.styles;
+
     if (!showNavNextButton && !showNavPrevButton) {
       return null;
     }
+
     var isHorizontal = orientation === HORIZONTAL_ORIENTATION;
     var isVertical = orientation !== HORIZONTAL_ORIENTATION;
     var isVerticalScrollable = orientation === VERTICAL_SCROLLABLE;
@@ -97,35 +108,44 @@ var DayPickerNavigation = /*#__PURE__*/function (_ref2, _ref) {
     var isDefaultNavNext = false;
     var navPrevTabIndex = {};
     var navNextTabIndex = {};
+
     if (!navPrevIcon && !renderNavPrevButton && showNavPrevButton) {
       navPrevTabIndex = {
         tabIndex: '0'
       };
       isDefaultNavPrev = true;
       var Icon = isVertical ? ChevronUp : LeftArrow;
+
       if (isRTL && !isVertical) {
         Icon = RightArrow;
       }
-      navPrevIcon = /*#__PURE__*/React.createElement(Icon, css(isHorizontal && styles.DayPickerNavigation_svg__horizontal, isVertical && styles.DayPickerNavigation_svg__vertical, disablePrev && styles.DayPickerNavigation_svg__disabled));
+
+      navPrevIcon = React.createElement(Icon, css(isHorizontal && styles.DayPickerNavigation_svg__horizontal, isVertical && styles.DayPickerNavigation_svg__vertical, disablePrev && styles.DayPickerNavigation_svg__disabled));
     }
+
     if (!navNextIcon && !renderNavNextButton && showNavNextButton) {
       navNextTabIndex = {
         tabIndex: '0'
       };
       isDefaultNavNext = true;
+
       var _Icon = isVertical ? ChevronDown : RightArrow;
+
       if (isRTL && !isVertical) {
         _Icon = LeftArrow;
       }
-      navNextIcon = /*#__PURE__*/React.createElement(_Icon, css(isHorizontal && styles.DayPickerNavigation_svg__horizontal, isVertical && styles.DayPickerNavigation_svg__vertical, disableNext && styles.DayPickerNavigation_svg__disabled));
+
+      navNextIcon = React.createElement(_Icon, css(isHorizontal && styles.DayPickerNavigation_svg__horizontal, isVertical && styles.DayPickerNavigation_svg__vertical, disableNext && styles.DayPickerNavigation_svg__disabled));
     }
+
     var isDefaultNav = isDefaultNavNext || isDefaultNavPrev;
-    return /*#__PURE__*/React.createElement("div", css.apply(void 0, [styles.DayPickerNavigation, isHorizontal && styles.DayPickerNavigation__horizontal].concat(_toConsumableArray(isVertical ? [styles.DayPickerNavigation__vertical, isDefaultNav && styles.DayPickerNavigation__verticalDefault] : []), _toConsumableArray(isVerticalScrollable ? [styles.DayPickerNavigation__verticalScrollable, isDefaultNav && styles.DayPickerNavigation__verticalScrollableDefault, showNavPrevButton && styles.DayPickerNavigation__verticalScrollable_prevNav] : []), _toConsumableArray(isBottomNavPosition ? [styles.DayPickerNavigation__bottom, isDefaultNav && styles.DayPickerNavigation__bottomDefault] : []), [hasInlineStyles && inlineStyles])), showNavPrevButton && (renderNavPrevButton ? renderNavPrevButton({
+    return React.createElement("div", css.apply(void 0, [styles.DayPickerNavigation, isHorizontal && styles.DayPickerNavigation__horizontal].concat(_toConsumableArray(isVertical ? [styles.DayPickerNavigation__vertical, isDefaultNav && styles.DayPickerNavigation__verticalDefault] : []), _toConsumableArray(isVerticalScrollable ? [styles.DayPickerNavigation__verticalScrollable, isDefaultNav && styles.DayPickerNavigation__verticalScrollableDefault, showNavPrevButton && styles.DayPickerNavigation__verticalScrollable_prevNav] : []), _toConsumableArray(isBottomNavPosition ? [styles.DayPickerNavigation__bottom, isDefaultNav && styles.DayPickerNavigation__bottomDefault] : []), [hasInlineStyles && inlineStyles])), showNavPrevButton && (renderNavPrevButton ? renderNavPrevButton({
       ariaLabel: phrases.jumpToPrevMonth,
       disabled: disablePrev,
       onClick: disablePrev ? undefined : onPrevMonthClick,
       onKeyUp: disablePrev ? undefined : function (e) {
         var key = e.key;
+
         if (key === 'Enter' || key === ' ') {
           onPrevMonthClick(e);
         }
@@ -133,7 +153,7 @@ var DayPickerNavigation = /*#__PURE__*/function (_ref2, _ref) {
       onMouseUp: disablePrev ? undefined : function (e) {
         e.currentTarget.blur();
       }
-    }) : /*#__PURE__*/React.createElement("div", _extends({
+    }) : React.createElement("div", _extends({
       // eslint-disable-line jsx-a11y/interactive-supports-focus
       role: "button"
     }, navPrevTabIndex, css.apply(void 0, [styles.DayPickerNavigation_button, isDefaultNavPrev && styles.DayPickerNavigation_button__default, disablePrev && styles.DayPickerNavigation_button__disabled].concat(_toConsumableArray(isHorizontal ? [styles.DayPickerNavigation_button__horizontal].concat(_toConsumableArray(isDefaultNavPrev ? [styles.DayPickerNavigation_button__horizontalDefault, isBottomNavPosition && styles.DayPickerNavigation_bottomButton__horizontalDefault, !isRTL && styles.DayPickerNavigation_leftButton__horizontalDefault, isRTL && styles.DayPickerNavigation_rightButton__horizontalDefault] : [])) : []), _toConsumableArray(isVertical ? [styles.DayPickerNavigation_button__vertical].concat(_toConsumableArray(isDefaultNavPrev ? [styles.DayPickerNavigation_button__verticalDefault, styles.DayPickerNavigation_prevButton__verticalDefault, isVerticalScrollable && styles.DayPickerNavigation_prevButton__verticalScrollableDefault] : [])) : []))), {
@@ -142,6 +162,7 @@ var DayPickerNavigation = /*#__PURE__*/function (_ref2, _ref) {
       onClick: disablePrev ? undefined : onPrevMonthClick,
       onKeyUp: disablePrev ? undefined : function (e) {
         var key = e.key;
+
         if (key === 'Enter' || key === ' ') {
           onPrevMonthClick(e);
         }
@@ -155,6 +176,7 @@ var DayPickerNavigation = /*#__PURE__*/function (_ref2, _ref) {
       onClick: disableNext ? undefined : onNextMonthClick,
       onKeyUp: disableNext ? undefined : function (e) {
         var key = e.key;
+
         if (key === 'Enter' || key === ' ') {
           onNextMonthClick(e);
         }
@@ -162,7 +184,7 @@ var DayPickerNavigation = /*#__PURE__*/function (_ref2, _ref) {
       onMouseUp: disableNext ? undefined : function (e) {
         e.currentTarget.blur();
       }
-    }) : /*#__PURE__*/React.createElement("div", _extends({
+    }) : React.createElement("div", _extends({
       // eslint-disable-line jsx-a11y/interactive-supports-focus
       role: "button"
     }, navNextTabIndex, css.apply(void 0, [styles.DayPickerNavigation_button, isDefaultNavNext && styles.DayPickerNavigation_button__default, disableNext && styles.DayPickerNavigation_button__disabled].concat(_toConsumableArray(isHorizontal ? [styles.DayPickerNavigation_button__horizontal].concat(_toConsumableArray(isDefaultNavNext ? [styles.DayPickerNavigation_button__horizontalDefault, isBottomNavPosition && styles.DayPickerNavigation_bottomButton__horizontalDefault, isRTL && styles.DayPickerNavigation_leftButton__horizontalDefault, !isRTL && styles.DayPickerNavigation_rightButton__horizontalDefault] : [])) : []), _toConsumableArray(isVertical ? [styles.DayPickerNavigation_button__vertical].concat(_toConsumableArray(isDefaultNavNext ? [styles.DayPickerNavigation_button__verticalDefault, styles.DayPickerNavigation_nextButton__verticalDefault, isVerticalScrollable && styles.DayPickerNavigation_nextButton__verticalScrollableDefault] : [])) : []))), {
@@ -171,6 +193,7 @@ var DayPickerNavigation = /*#__PURE__*/function (_ref2, _ref) {
       onClick: disableNext ? undefined : onNextMonthClick,
       onKeyUp: disableNext ? undefined : function (e) {
         var key = e.key;
+
         if (key === 'Enter' || key === ' ') {
           onNextMonthClick(e);
         }
@@ -180,14 +203,16 @@ var DayPickerNavigation = /*#__PURE__*/function (_ref2, _ref) {
       }
     }), navNextIcon)));
   };
+
   return DayPickerNavigation;
-}(React.PureComponent || React.Component, !React.PureComponent && "shouldComponentUpdate");
+}(React.PureComponent || React.Component);
+
 DayPickerNavigation.propTypes = process.env.NODE_ENV !== "production" ? propTypes : {};
 DayPickerNavigation.defaultProps = defaultProps;
-export default withStyles(function (_ref3) {
-  var _ref3$reactDates = _ref3.reactDates,
-    color = _ref3$reactDates.color,
-    zIndex = _ref3$reactDates.zIndex;
+export default withStyles(function (_ref2) {
+  var _ref2$reactDates = _ref2.reactDates,
+      color = _ref2$reactDates.color,
+      zIndex = _ref2$reactDates.zIndex;
   return {
     DayPickerNavigation: {
       position: 'relative',
@@ -200,6 +225,7 @@ export default withStyles(function (_ref3) {
     DayPickerNavigation__verticalScrollable: {},
     DayPickerNavigation__verticalScrollable_prevNav: {
       zIndex: zIndex + 1 // zIndex + 2 causes the button to show on top of the day of week headers
+
     },
     DayPickerNavigation__verticalDefault: {
       position: 'absolute',

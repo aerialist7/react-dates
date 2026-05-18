@@ -159,6 +159,7 @@ var DayPickerSingleDateController = exports["default"] = /*#__PURE__*/function (
   function DayPickerSingleDateController(props) {
     var _this;
     _this = _ref2.call(this, props) || this;
+    _this.props = _objectSpread(_objectSpread({}, defaultProps), _this.props);
     _this.isTouchDevice = false;
     _this.today = (0, _moment["default"])();
     _this.modifiers = {
@@ -702,4 +703,3 @@ var DayPickerSingleDateController = exports["default"] = /*#__PURE__*/function (
   return DayPickerSingleDateController;
 }(_react["default"].PureComponent || _react["default"].Component, !_react["default"].PureComponent && "shouldComponentUpdate");
 DayPickerSingleDateController.propTypes = process.env.NODE_ENV !== "production" ? propTypes : {};
-DayPickerSingleDateController.defaultProps = defaultProps;

@@ -1,32 +1,55 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+
 var _enzymeShallowEqual = _interopRequireDefault(require("enzyme-shallow-equal"));
+
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
 var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
+
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/inheritsLoose"));
+
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
 var _react = _interopRequireDefault(require("react"));
+
 var _propTypes = _interopRequireDefault(require("prop-types"));
+
 var _airbnbPropTypes = require("airbnb-prop-types");
+
 var _reactWithStyles = require("react-with-styles");
+
 var _defaultPhrases = require("../defaultPhrases");
+
 var _getPhrasePropTypes = _interopRequireDefault(require("../utils/getPhrasePropTypes"));
+
 var _noflip = _interopRequireDefault(require("../utils/noflip"));
+
 var _LeftArrow = _interopRequireDefault(require("./LeftArrow"));
+
 var _RightArrow = _interopRequireDefault(require("./RightArrow"));
+
 var _ChevronUp = _interopRequireDefault(require("./ChevronUp"));
+
 var _ChevronDown = _interopRequireDefault(require("./ChevronDown"));
+
 var _NavPositionShape = _interopRequireDefault(require("../shapes/NavPositionShape"));
+
 var _ScrollableOrientationShape = _interopRequireDefault(require("../shapes/ScrollableOrientationShape"));
+
 var _constants = require("../constants");
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0, _defineProperty2["default"])(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-var propTypes = process.env.NODE_ENV !== "production" ? (0, _airbnbPropTypes.forbidExtraProps)(_objectSpread(_objectSpread({}, _reactWithStyles.withStylesPropTypes), {}, {
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+var propTypes = process.env.NODE_ENV !== "production" ? (0, _airbnbPropTypes.forbidExtraProps)(_objectSpread({}, _reactWithStyles.withStylesPropTypes, {
   disablePrev: _propTypes["default"].bool,
   disableNext: _propTypes["default"].bool,
   inlineStyles: _propTypes["default"].object,
@@ -62,37 +85,45 @@ var defaultProps = {
   showNavPrevButton: true,
   showNavNextButton: true
 };
-var DayPickerNavigation = /*#__PURE__*/function (_ref2, _ref) {
+
+var DayPickerNavigation =
+/*#__PURE__*/
+function (_ref) {
+  (0, _inheritsLoose2["default"])(DayPickerNavigation, _ref);
+
   function DayPickerNavigation() {
-    return _ref2.apply(this, arguments) || this;
+    return _ref.apply(this, arguments) || this;
   }
-  (0, _inheritsLoose2["default"])(DayPickerNavigation, _ref2);
+
   var _proto = DayPickerNavigation.prototype;
-  _proto[_ref] = function (nextProps, nextState) {
+
+  _proto[!_react["default"].PureComponent && "shouldComponentUpdate"] = function (nextProps, nextState) {
     return !(0, _enzymeShallowEqual["default"])(this.props, nextProps) || !(0, _enzymeShallowEqual["default"])(this.state, nextState);
   };
+
   _proto.render = function render() {
     var _this$props = this.props,
-      inlineStyles = _this$props.inlineStyles,
-      isRTL = _this$props.isRTL,
-      disablePrev = _this$props.disablePrev,
-      disableNext = _this$props.disableNext,
-      navPosition = _this$props.navPosition,
-      navPrev = _this$props.navPrev,
-      navNext = _this$props.navNext,
-      onPrevMonthClick = _this$props.onPrevMonthClick,
-      onNextMonthClick = _this$props.onNextMonthClick,
-      orientation = _this$props.orientation,
-      phrases = _this$props.phrases,
-      renderNavPrevButton = _this$props.renderNavPrevButton,
-      renderNavNextButton = _this$props.renderNavNextButton,
-      showNavPrevButton = _this$props.showNavPrevButton,
-      showNavNextButton = _this$props.showNavNextButton,
-      css = _this$props.css,
-      styles = _this$props.styles;
+        inlineStyles = _this$props.inlineStyles,
+        isRTL = _this$props.isRTL,
+        disablePrev = _this$props.disablePrev,
+        disableNext = _this$props.disableNext,
+        navPosition = _this$props.navPosition,
+        navPrev = _this$props.navPrev,
+        navNext = _this$props.navNext,
+        onPrevMonthClick = _this$props.onPrevMonthClick,
+        onNextMonthClick = _this$props.onNextMonthClick,
+        orientation = _this$props.orientation,
+        phrases = _this$props.phrases,
+        renderNavPrevButton = _this$props.renderNavPrevButton,
+        renderNavNextButton = _this$props.renderNavNextButton,
+        showNavPrevButton = _this$props.showNavPrevButton,
+        showNavNextButton = _this$props.showNavNextButton,
+        styles = _this$props.styles;
+
     if (!showNavNextButton && !showNavPrevButton) {
       return null;
     }
+
     var isHorizontal = orientation === _constants.HORIZONTAL_ORIENTATION;
     var isVertical = orientation !== _constants.HORIZONTAL_ORIENTATION;
     var isVerticalScrollable = orientation === _constants.VERTICAL_SCROLLABLE;
@@ -104,35 +135,44 @@ var DayPickerNavigation = /*#__PURE__*/function (_ref2, _ref) {
     var isDefaultNavNext = false;
     var navPrevTabIndex = {};
     var navNextTabIndex = {};
+
     if (!navPrevIcon && !renderNavPrevButton && showNavPrevButton) {
       navPrevTabIndex = {
         tabIndex: '0'
       };
       isDefaultNavPrev = true;
       var Icon = isVertical ? _ChevronUp["default"] : _LeftArrow["default"];
+
       if (isRTL && !isVertical) {
         Icon = _RightArrow["default"];
       }
-      navPrevIcon = /*#__PURE__*/_react["default"].createElement(Icon, css(isHorizontal && styles.DayPickerNavigation_svg__horizontal, isVertical && styles.DayPickerNavigation_svg__vertical, disablePrev && styles.DayPickerNavigation_svg__disabled));
+
+      navPrevIcon = _react["default"].createElement(Icon, (0, _reactWithStyles.css)(isHorizontal && styles.DayPickerNavigation_svg__horizontal, isVertical && styles.DayPickerNavigation_svg__vertical, disablePrev && styles.DayPickerNavigation_svg__disabled));
     }
+
     if (!navNextIcon && !renderNavNextButton && showNavNextButton) {
       navNextTabIndex = {
         tabIndex: '0'
       };
       isDefaultNavNext = true;
+
       var _Icon = isVertical ? _ChevronDown["default"] : _RightArrow["default"];
+
       if (isRTL && !isVertical) {
         _Icon = _LeftArrow["default"];
       }
-      navNextIcon = /*#__PURE__*/_react["default"].createElement(_Icon, css(isHorizontal && styles.DayPickerNavigation_svg__horizontal, isVertical && styles.DayPickerNavigation_svg__vertical, disableNext && styles.DayPickerNavigation_svg__disabled));
+
+      navNextIcon = _react["default"].createElement(_Icon, (0, _reactWithStyles.css)(isHorizontal && styles.DayPickerNavigation_svg__horizontal, isVertical && styles.DayPickerNavigation_svg__vertical, disableNext && styles.DayPickerNavigation_svg__disabled));
     }
+
     var isDefaultNav = isDefaultNavNext || isDefaultNavPrev;
-    return /*#__PURE__*/_react["default"].createElement("div", css.apply(void 0, [styles.DayPickerNavigation, isHorizontal && styles.DayPickerNavigation__horizontal].concat((0, _toConsumableArray2["default"])(isVertical ? [styles.DayPickerNavigation__vertical, isDefaultNav && styles.DayPickerNavigation__verticalDefault] : []), (0, _toConsumableArray2["default"])(isVerticalScrollable ? [styles.DayPickerNavigation__verticalScrollable, isDefaultNav && styles.DayPickerNavigation__verticalScrollableDefault, showNavPrevButton && styles.DayPickerNavigation__verticalScrollable_prevNav] : []), (0, _toConsumableArray2["default"])(isBottomNavPosition ? [styles.DayPickerNavigation__bottom, isDefaultNav && styles.DayPickerNavigation__bottomDefault] : []), [hasInlineStyles && inlineStyles])), showNavPrevButton && (renderNavPrevButton ? renderNavPrevButton({
+    return _react["default"].createElement("div", _reactWithStyles.css.apply(void 0, [styles.DayPickerNavigation, isHorizontal && styles.DayPickerNavigation__horizontal].concat((0, _toConsumableArray2["default"])(isVertical ? [styles.DayPickerNavigation__vertical, isDefaultNav && styles.DayPickerNavigation__verticalDefault] : []), (0, _toConsumableArray2["default"])(isVerticalScrollable ? [styles.DayPickerNavigation__verticalScrollable, isDefaultNav && styles.DayPickerNavigation__verticalScrollableDefault, showNavPrevButton && styles.DayPickerNavigation__verticalScrollable_prevNav] : []), (0, _toConsumableArray2["default"])(isBottomNavPosition ? [styles.DayPickerNavigation__bottom, isDefaultNav && styles.DayPickerNavigation__bottomDefault] : []), [hasInlineStyles && inlineStyles])), showNavPrevButton && (renderNavPrevButton ? renderNavPrevButton({
       ariaLabel: phrases.jumpToPrevMonth,
       disabled: disablePrev,
       onClick: disablePrev ? undefined : onPrevMonthClick,
       onKeyUp: disablePrev ? undefined : function (e) {
         var key = e.key;
+
         if (key === 'Enter' || key === ' ') {
           onPrevMonthClick(e);
         }
@@ -140,15 +180,16 @@ var DayPickerNavigation = /*#__PURE__*/function (_ref2, _ref) {
       onMouseUp: disablePrev ? undefined : function (e) {
         e.currentTarget.blur();
       }
-    }) : /*#__PURE__*/_react["default"].createElement("div", (0, _extends2["default"])({
+    }) : _react["default"].createElement("div", (0, _extends2["default"])({
       // eslint-disable-line jsx-a11y/interactive-supports-focus
       role: "button"
-    }, navPrevTabIndex, css.apply(void 0, [styles.DayPickerNavigation_button, isDefaultNavPrev && styles.DayPickerNavigation_button__default, disablePrev && styles.DayPickerNavigation_button__disabled].concat((0, _toConsumableArray2["default"])(isHorizontal ? [styles.DayPickerNavigation_button__horizontal].concat((0, _toConsumableArray2["default"])(isDefaultNavPrev ? [styles.DayPickerNavigation_button__horizontalDefault, isBottomNavPosition && styles.DayPickerNavigation_bottomButton__horizontalDefault, !isRTL && styles.DayPickerNavigation_leftButton__horizontalDefault, isRTL && styles.DayPickerNavigation_rightButton__horizontalDefault] : [])) : []), (0, _toConsumableArray2["default"])(isVertical ? [styles.DayPickerNavigation_button__vertical].concat((0, _toConsumableArray2["default"])(isDefaultNavPrev ? [styles.DayPickerNavigation_button__verticalDefault, styles.DayPickerNavigation_prevButton__verticalDefault, isVerticalScrollable && styles.DayPickerNavigation_prevButton__verticalScrollableDefault] : [])) : []))), {
+    }, navPrevTabIndex, _reactWithStyles.css.apply(void 0, [styles.DayPickerNavigation_button, isDefaultNavPrev && styles.DayPickerNavigation_button__default, disablePrev && styles.DayPickerNavigation_button__disabled].concat((0, _toConsumableArray2["default"])(isHorizontal ? [styles.DayPickerNavigation_button__horizontal].concat((0, _toConsumableArray2["default"])(isDefaultNavPrev ? [styles.DayPickerNavigation_button__horizontalDefault, isBottomNavPosition && styles.DayPickerNavigation_bottomButton__horizontalDefault, !isRTL && styles.DayPickerNavigation_leftButton__horizontalDefault, isRTL && styles.DayPickerNavigation_rightButton__horizontalDefault] : [])) : []), (0, _toConsumableArray2["default"])(isVertical ? [styles.DayPickerNavigation_button__vertical].concat((0, _toConsumableArray2["default"])(isDefaultNavPrev ? [styles.DayPickerNavigation_button__verticalDefault, styles.DayPickerNavigation_prevButton__verticalDefault, isVerticalScrollable && styles.DayPickerNavigation_prevButton__verticalScrollableDefault] : [])) : []))), {
       "aria-disabled": disablePrev ? true : undefined,
       "aria-label": phrases.jumpToPrevMonth,
       onClick: disablePrev ? undefined : onPrevMonthClick,
       onKeyUp: disablePrev ? undefined : function (e) {
         var key = e.key;
+
         if (key === 'Enter' || key === ' ') {
           onPrevMonthClick(e);
         }
@@ -162,6 +203,7 @@ var DayPickerNavigation = /*#__PURE__*/function (_ref2, _ref) {
       onClick: disableNext ? undefined : onNextMonthClick,
       onKeyUp: disableNext ? undefined : function (e) {
         var key = e.key;
+
         if (key === 'Enter' || key === ' ') {
           onNextMonthClick(e);
         }
@@ -169,15 +211,16 @@ var DayPickerNavigation = /*#__PURE__*/function (_ref2, _ref) {
       onMouseUp: disableNext ? undefined : function (e) {
         e.currentTarget.blur();
       }
-    }) : /*#__PURE__*/_react["default"].createElement("div", (0, _extends2["default"])({
+    }) : _react["default"].createElement("div", (0, _extends2["default"])({
       // eslint-disable-line jsx-a11y/interactive-supports-focus
       role: "button"
-    }, navNextTabIndex, css.apply(void 0, [styles.DayPickerNavigation_button, isDefaultNavNext && styles.DayPickerNavigation_button__default, disableNext && styles.DayPickerNavigation_button__disabled].concat((0, _toConsumableArray2["default"])(isHorizontal ? [styles.DayPickerNavigation_button__horizontal].concat((0, _toConsumableArray2["default"])(isDefaultNavNext ? [styles.DayPickerNavigation_button__horizontalDefault, isBottomNavPosition && styles.DayPickerNavigation_bottomButton__horizontalDefault, isRTL && styles.DayPickerNavigation_leftButton__horizontalDefault, !isRTL && styles.DayPickerNavigation_rightButton__horizontalDefault] : [])) : []), (0, _toConsumableArray2["default"])(isVertical ? [styles.DayPickerNavigation_button__vertical].concat((0, _toConsumableArray2["default"])(isDefaultNavNext ? [styles.DayPickerNavigation_button__verticalDefault, styles.DayPickerNavigation_nextButton__verticalDefault, isVerticalScrollable && styles.DayPickerNavigation_nextButton__verticalScrollableDefault] : [])) : []))), {
+    }, navNextTabIndex, _reactWithStyles.css.apply(void 0, [styles.DayPickerNavigation_button, isDefaultNavNext && styles.DayPickerNavigation_button__default, disableNext && styles.DayPickerNavigation_button__disabled].concat((0, _toConsumableArray2["default"])(isHorizontal ? [styles.DayPickerNavigation_button__horizontal].concat((0, _toConsumableArray2["default"])(isDefaultNavNext ? [styles.DayPickerNavigation_button__horizontalDefault, isBottomNavPosition && styles.DayPickerNavigation_bottomButton__horizontalDefault, isRTL && styles.DayPickerNavigation_leftButton__horizontalDefault, !isRTL && styles.DayPickerNavigation_rightButton__horizontalDefault] : [])) : []), (0, _toConsumableArray2["default"])(isVertical ? [styles.DayPickerNavigation_button__vertical].concat((0, _toConsumableArray2["default"])(isDefaultNavNext ? [styles.DayPickerNavigation_button__verticalDefault, styles.DayPickerNavigation_nextButton__verticalDefault, isVerticalScrollable && styles.DayPickerNavigation_nextButton__verticalScrollableDefault] : [])) : []))), {
       "aria-disabled": disableNext ? true : undefined,
       "aria-label": phrases.jumpToNextMonth,
       onClick: disableNext ? undefined : onNextMonthClick,
       onKeyUp: disableNext ? undefined : function (e) {
         var key = e.key;
+
         if (key === 'Enter' || key === ' ') {
           onNextMonthClick(e);
         }
@@ -187,14 +230,17 @@ var DayPickerNavigation = /*#__PURE__*/function (_ref2, _ref) {
       }
     }), navNextIcon)));
   };
+
   return DayPickerNavigation;
-}(_react["default"].PureComponent || _react["default"].Component, !_react["default"].PureComponent && "shouldComponentUpdate");
+}(_react["default"].PureComponent || _react["default"].Component);
+
 DayPickerNavigation.propTypes = process.env.NODE_ENV !== "production" ? propTypes : {};
 DayPickerNavigation.defaultProps = defaultProps;
-var _default = exports["default"] = (0, _reactWithStyles.withStyles)(function (_ref3) {
-  var _ref3$reactDates = _ref3.reactDates,
-    color = _ref3$reactDates.color,
-    zIndex = _ref3$reactDates.zIndex;
+
+var _default = (0, _reactWithStyles.withStyles)(function (_ref2) {
+  var _ref2$reactDates = _ref2.reactDates,
+      color = _ref2$reactDates.color,
+      zIndex = _ref2$reactDates.zIndex;
   return {
     DayPickerNavigation: {
       position: 'relative',
@@ -207,6 +253,7 @@ var _default = exports["default"] = (0, _reactWithStyles.withStyles)(function (_
     DayPickerNavigation__verticalScrollable: {},
     DayPickerNavigation__verticalScrollable_prevNav: {
       zIndex: zIndex + 1 // zIndex + 2 causes the button to show on top of the day of week headers
+
     },
     DayPickerNavigation__verticalDefault: {
       position: 'absolute',
@@ -319,3 +366,5 @@ var _default = exports["default"] = (0, _reactWithStyles.withStyles)(function (_
 }, {
   pureComponent: typeof _react["default"].PureComponent !== 'undefined'
 })(DayPickerNavigation);
+
+exports["default"] = _default;

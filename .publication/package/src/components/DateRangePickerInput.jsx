@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { forbidExtraProps, nonNegativeInteger } from 'airbnb-prop-types';
-import { withStyles, withStylesPropTypes } from 'react-with-styles';
+import { css, withStyles, withStylesPropTypes } from 'react-with-styles';
 
 import { DateRangePickerInputPhrases } from '../defaultPhrases';
 import getPhrasePropTypes from '../utils/getPhrasePropTypes';
@@ -33,13 +33,11 @@ const propTypes = forbidExtraProps({
   startDateId: PropTypes.string,
   startDatePlaceholderText: PropTypes.string,
   startDateAriaLabel: PropTypes.string,
-  startDateTitleText: PropTypes.string,
   screenReaderMessage: PropTypes.string,
 
   endDateId: PropTypes.string,
   endDatePlaceholderText: PropTypes.string,
   endDateAriaLabel: PropTypes.string,
-  endDateTitleText: PropTypes.string,
 
   onStartDateFocus: PropTypes.func,
   onEndDateFocus: PropTypes.func,
@@ -72,7 +70,6 @@ const propTypes = forbidExtraProps({
   small: PropTypes.bool,
   regular: PropTypes.bool,
   verticalSpacing: nonNegativeInteger,
-  autoComplete: PropTypes.string,
 
   // accessibility
   isFocused: PropTypes.bool, // describes actual DOM focus
@@ -91,10 +88,7 @@ const defaultProps = {
   endDatePlaceholderText: 'End Date',
   startDateAriaLabel: undefined,
   endDateAriaLabel: undefined,
-  startDateTitleText: undefined,
-  endDateTitleText: undefined,
   screenReaderMessage: '',
-  autoComplete: 'off',
   onStartDateFocus() {},
   onEndDateFocus() {},
   onStartDateChange() {},
@@ -137,59 +131,55 @@ const defaultProps = {
 };
 
 function DateRangePickerInput({
-  children = defaultProps.children,
-  startDate = defaultProps.startDate,
-  startDateId = defaultProps.startDateId,
-  startDatePlaceholderText = defaultProps.startDatePlaceholderText,
-  screenReaderMessage = defaultProps.screenReaderMessage,
-  isStartDateFocused = defaultProps.isStartDateFocused,
-  onStartDateChange = defaultProps.onStartDateChange,
-  onStartDateFocus = defaultProps.onStartDateFocus,
-  onStartDateShiftTab = defaultProps.onStartDateShiftTab,
-  startDateAriaLabel = defaultProps.startDateAriaLabel,
-  startDateTitleText = defaultProps.startDateTitleText,
-  endDate = defaultProps.endDate,
-  endDateId = defaultProps.endDateId,
-  endDatePlaceholderText = defaultProps.endDatePlaceholderText,
-  isEndDateFocused = defaultProps.isEndDateFocused,
-  onEndDateChange = defaultProps.onEndDateChange,
-  onEndDateFocus = defaultProps.onEndDateFocus,
-  onEndDateTab = defaultProps.onEndDateTab,
-  endDateAriaLabel = defaultProps.endDateAriaLabel,
-  endDateTitleText = defaultProps.endDateTitleText,
-  onKeyDownArrowDown = defaultProps.onKeyDownArrowDown,
-  onKeyDownQuestionMark = defaultProps.onKeyDownQuestionMark,
-  onClearDates = defaultProps.onClearDates,
-  showClearDates = defaultProps.showClearDates,
-  disabled = defaultProps.disabled,
-  required = defaultProps.required,
-  readOnly = defaultProps.readOnly,
-  autoComplete = defaultProps.autoComplete,
-  showCaret = defaultProps.showCaret,
-  openDirection = defaultProps.openDirection,
-  showDefaultInputIcon = defaultProps.showDefaultInputIcon,
-  inputIconPosition = defaultProps.inputIconPosition,
-  customInputIcon = defaultProps.customInputIcon,
-  customArrowIcon = defaultProps.customArrowIcon,
-  customCloseIcon = defaultProps.customCloseIcon,
-  isFocused = defaultProps.isFocused,
-  phrases = defaultProps.phrases,
-  isRTL = defaultProps.isRTL,
-  noBorder = defaultProps.noBorder,
-  block = defaultProps.block,
-  verticalSpacing = defaultProps.verticalSpacing,
-  small = defaultProps.small,
-  regular = defaultProps.regular,
-  css,
+  children,
+  startDate,
+  startDateId,
+  startDatePlaceholderText,
+  screenReaderMessage,
+  isStartDateFocused,
+  onStartDateChange,
+  onStartDateFocus,
+  onStartDateShiftTab,
+  startDateAriaLabel,
+  endDate,
+  endDateId,
+  endDatePlaceholderText,
+  isEndDateFocused,
+  onEndDateChange,
+  onEndDateFocus,
+  onEndDateTab,
+  endDateAriaLabel,
+  onKeyDownArrowDown,
+  onKeyDownQuestionMark,
+  onClearDates,
+  showClearDates,
+  disabled,
+  required,
+  readOnly,
+  showCaret,
+  openDirection,
+  showDefaultInputIcon,
+  inputIconPosition,
+  customInputIcon,
+  customArrowIcon,
+  customCloseIcon,
+  isFocused,
+  phrases,
+  isRTL,
+  noBorder,
+  block,
+  verticalSpacing,
+  small,
+  regular,
   styles,
 }) {
   const calendarIcon = customInputIcon || (
     <CalendarIcon {...css(styles.DateRangePickerInput_calendarIcon_svg)} />
   );
-  let arrowIcon = <RightArrow {...css(styles.DateRangePickerInput_arrow_svg)} />;
+
+  let arrowIcon = customArrowIcon || <RightArrow {...css(styles.DateRangePickerInput_arrow_svg)} />;
   if (isRTL) arrowIcon = <LeftArrow {...css(styles.DateRangePickerInput_arrow_svg)} />;
   if (small) arrowIcon = '-';
-  if (customArrowIcon) arrowIcon = customArrowIcon;
 
   const closeIcon = customCloseIcon || (
     <CloseButton
@@ -237,8 +227,6 @@ function DateRangePickerInput({
         id={startDateId}
         placeholder={startDatePlaceholderText}
         ariaLabel={startDateAriaLabel}
-        autoComplete={autoComplete}
-        titleText={startDateTitleText}
         displayValue={startDate}
         screenReaderMessage={screenReaderStartDateText}
         focused={isStartDateFocused}
@@ -258,22 +246,22 @@ function DateRangePickerInput({
         regular={regular}
       />
 
-      {!isEndDateFocused && children}
+      {children}
 
-      <div
-        {...css(styles.DateRangePickerInput_arrow)}
-        aria-hidden="true"
-        role="presentation"
-      >
-        {arrowIcon}
-      </div>
+      {
+        <div
+          {...css(styles.DateRangePickerInput_arrow)}
+          aria-hidden="true"
+          role="presentation"
+        >
+          {arrowIcon}
+        </div>
+      }
 
       <DateInput
         id={endDateId}
         placeholder={endDatePlaceholderText}
         ariaLabel={endDateAriaLabel}
-        autoComplete={autoComplete}
-        titleText={endDateTitleText}
         displayValue={endDate}
         screenReaderMessage={screenReaderEndDateText}
         focused={isEndDateFocused}
@@ -293,7 +281,6 @@ function DateRangePickerInput({
         regular={regular}
       />
 
-      {isEndDateFocused && children}
 
       {showClearDates && (
         <button
@@ -318,6 +305,7 @@ function DateRangePickerInput({
 }
 
 DateRangePickerInput.propTypes = propTypes;
+DateRangePickerInput.defaultProps = defaultProps;
 
 export default withStyles(({ reactDates: { border, color, sizing } }) => ({
   DateRangePickerInput: {

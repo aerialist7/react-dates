@@ -5,5 +5,6 @@ export default function getPreviousMonthMemoLast(month) {
     getPreviousMonthMemoKey = month;
     getPreviousMonthMemoValue = month.clone().subtract(1, 'month');
   }
+
   return getPreviousMonthMemoValue;
 }
