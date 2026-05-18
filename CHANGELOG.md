@@ -4,6 +4,11 @@
 - []  ([#](https://github.com/react-dates/react-dates/pull/))
 -->
 
+## 21.8.0-patch.6
+
+- [fix] Fix "TypeError: this.shouldDisableMonthNavigation is not a function" in `SingleDatePicker` component (no code changes – there was an error during publication)
+- [fix] Fix work in react >=20
+
 ## 21.8.0-patch.5
 
 - [fix] Direct dependency on `prop-types-exact` v.1.2.0 for correct work of `airbnb-prop-types` package
