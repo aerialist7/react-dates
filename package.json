@@ -123,7 +123,7 @@
     "react-with-styles-interface-aphrodite": "^6.0.1",
     "react-with-styles-interface-css-compiler": "^2.2.0",
     "rimraf": "^2.7.1",
-    "safe-publish-latest": "^1.1.4",
+    "safe-publish-latest": "^2.0.0",
     "sass-loader": "^7.3.1",
     "sinon": "^7.5.0",
     "sinon-sandbox": "^2.0.6",
