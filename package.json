@@ -78,7 +78,7 @@
     "@storybook/addon-links": "^5.3.21",
     "@storybook/addon-options": "^5.3.21",
     "@storybook/addons": "^5.3.21",
-    "@storybook/react": "^5.3.21",
+    "@storybook/react": "^10.4.0",
     "@welldone-software/why-did-you-render": "^3.6.0",
     "airbnb-js-shims": "^2.2.1",
     "aphrodite": "^2.4.0",
