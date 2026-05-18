@@ -54,3 +54,6 @@ css/styles.css
 
 # IDE
 .idea/
+
+# Exceptions for publication folder
+!.publication/**
