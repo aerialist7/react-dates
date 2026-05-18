@@ -36,6 +36,8 @@ const propTypes = forbidExtraProps({
   id: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   ariaLabel: PropTypes.string,
+  autoComplete: PropTypes.string,
+  titleText: PropTypes.string,
   screenReaderMessage: PropTypes.string,
   showClearDate: PropTypes.bool,
   showCaret: PropTypes.bool,
@@ -54,6 +56,7 @@ const propTypes = forbidExtraProps({
   keepOpenOnDateSelect: PropTypes.bool,
   reopenPickerOnClearDate: PropTypes.bool,
   isOutsideRange: PropTypes.func,
+  isDayBlocked: PropTypes.func,
   displayFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
   onClose: PropTypes.func,
@@ -80,6 +83,8 @@ const defaultProps = {
 
   placeholder: '',
   ariaLabel: undefined,
+  autoComplete: 'off',
+  titleText: undefined,
   screenReaderMessage: 'Date',
   showClearDate: false,
   showCaret: false,
@@ -98,6 +103,7 @@ const defaultProps = {
   keepOpenOnDateSelect: false,
   reopenPickerOnClearDate: false,
   isOutsideRange: (day) => !isInclusivelyAfterDay(day, moment()),
+  isDayBlocked: () => false,
   displayFormat: () => moment.localeData().longDateFormat('L'),
 
   onClose() {},
@@ -129,6 +135,7 @@ export default class SingleDatePickerInputController extends React.PureComponent
   onChange(dateString) {
     const {
       isOutsideRange,
+      isDayBlocked,
       keepOpenOnDateSelect,
       onDateChange,
       onFocusChange,
@@ -136,7 +143,7 @@ export default class SingleDatePickerInputController extends React.PureComponent
     } = this.props;
     const newDate = toMomentObject(dateString, this.getDisplayFormat());
 
-    const isValid = newDate && !isOutsideRange(newDate);
+    const isValid = newDate && !isOutsideRange(newDate) && !isDayBlocked(newDate);
     if (isValid) {
       onDateChange(newDate);
       if (!keepOpenOnDateSelect) {
@@ -147,7 +154,6 @@ export default class SingleDatePickerInputController extends React.PureComponent
       onDateChange(null);
     }
   }
-
 
   onFocus() {
     const {
@@ -200,6 +206,8 @@ export default class SingleDatePickerInputController extends React.PureComponent
       id,
       placeholder,
       ariaLabel,
+      autoComplete,
+      titleText,
       disabled,
       focused,
       isFocused,
@@ -232,6 +240,8 @@ export default class SingleDatePickerInputController extends React.PureComponent
         id={id}
         placeholder={placeholder}
         ariaLabel={ariaLabel}
+        autoComplete={autoComplete}
+        titleText={titleText}
         focused={focused}
         isFocused={isFocused}
         disabled={disabled}

@@ -35,6 +35,8 @@ export default {
   endDatePlaceholderText: PropTypes.string,
   startDateAriaLabel: PropTypes.string,
   endDateAriaLabel: PropTypes.string,
+  startDateTitleText: PropTypes.string,
+  endDateTitleText: PropTypes.string,
   disabled: DisabledShape,
   required: PropTypes.bool,
   readOnly: PropTypes.bool,
@@ -50,6 +52,7 @@ export default {
   small: PropTypes.bool,
   regular: PropTypes.bool,
   keepFocusOnInput: PropTypes.bool,
+  autoComplete: PropTypes.string,
 
   // calendar presentation and interaction related props
   renderMonthText: mutuallyExclusiveProps(PropTypes.func, 'renderMonthText', 'renderMonthElement'),

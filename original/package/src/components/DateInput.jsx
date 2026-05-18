@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { forbidExtraProps, nonNegativeInteger } from 'airbnb-prop-types';
-import { css, withStyles, withStylesPropTypes } from 'react-with-styles';
+import { withStyles, withStylesPropTypes } from 'react-with-styles';
 import throttle from 'lodash/throttle';
 import isTouchDevice from 'is-touch-device';
 
@@ -29,6 +29,8 @@ const propTypes = forbidExtraProps({
   placeholder: PropTypes.string,
   displayValue: PropTypes.string,
   ariaLabel: PropTypes.string,
+  autoComplete: PropTypes.string,
+  titleText: PropTypes.string,
   screenReaderMessage: PropTypes.string,
   focused: PropTypes.bool,
   disabled: PropTypes.bool,
@@ -57,6 +59,8 @@ const defaultProps = {
   placeholder: 'Select Date',
   displayValue: '',
   ariaLabel: undefined,
+  autoComplete: 'off',
+  titleText: undefined,
   screenReaderMessage: '',
   focused: false,
   disabled: false,
@@ -175,6 +179,8 @@ class DateInput extends React.PureComponent {
       id,
       placeholder,
       ariaLabel,
+      autoComplete,
+      titleText,
       displayValue,
       screenReaderMessage,
       focused,
@@ -188,6 +194,7 @@ class DateInput extends React.PureComponent {
       small,
       regular,
       block,
+      css,
       styles,
       theme: { reactDates },
     } = this.props;
@@ -221,6 +228,7 @@ class DateInput extends React.PureComponent {
             disabled && styles.DateInput_input__disabled,
           )}
           aria-label={ariaLabel === undefined ? placeholder : ariaLabel}
+          title={titleText}
           type="text"
           id={id}
           name={id}
@@ -230,7 +238,7 @@ class DateInput extends React.PureComponent {
           onKeyDown={this.onKeyDown}
           onFocus={onFocus}
           placeholder={placeholder}
-          autoComplete="off"
+          autoComplete={autoComplete}
           disabled={disabled}
           readOnly={typeof readOnly === 'boolean' ? readOnly : isTouch}
           required={required}
@@ -335,7 +343,7 @@ export default withStyles(({
   },
 
   DateInput_input__regular: {
-    fontWeight: 'auto',
+    fontWeight: 'inherit',
   },
 
   DateInput_input__readOnly: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { forbidExtraProps, nonNegativeInteger } from 'airbnb-prop-types';
-import { css, withStyles, withStylesPropTypes } from 'react-with-styles';
+import { withStyles, withStylesPropTypes } from 'react-with-styles';
 
 import { SingleDatePickerInputPhrases } from '../defaultPhrases';
 import getPhrasePropTypes from '../utils/getPhrasePropTypes';
@@ -22,6 +22,8 @@ const propTypes = forbidExtraProps({
   children: PropTypes.node,
   placeholder: PropTypes.string,
   ariaLabel: PropTypes.string,
+  autoComplete: PropTypes.string,
+  titleText: PropTypes.string,
   displayValue: PropTypes.string,
   screenReaderMessage: PropTypes.string,
   focused: PropTypes.bool,
@@ -59,6 +61,8 @@ const defaultProps = {
   children: null,
   placeholder: 'Select Date',
   ariaLabel: undefined,
+  autoComplete: 'off',
+  titleText: undefined,
   displayValue: '',
   screenReaderMessage: '',
   focused: false,
@@ -94,37 +98,40 @@ const defaultProps = {
 
 function SingleDatePickerInput({
   id,
-  children,
-  placeholder,
-  ariaLabel,
-  displayValue,
-  focused,
-  isFocused,
-  disabled,
-  required,
-  readOnly,
-  showCaret,
-  showClearDate,
-  showDefaultInputIcon,
-  inputIconPosition,
-  phrases,
-  onClearDate,
-  onChange,
-  onFocus,
-  onKeyDownShiftTab,
-  onKeyDownTab,
-  onKeyDownArrowDown,
-  onKeyDownQuestionMark,
-  screenReaderMessage,
-  customCloseIcon,
-  customInputIcon,
-  openDirection,
-  isRTL,
-  noBorder,
-  block,
-  small,
-  regular,
-  verticalSpacing,
+  children = defaultProps.children,
+  placeholder = defaultProps.placeholder,
+  ariaLabel = defaultProps.ariaLabel,
+  autoComplete = defaultProps.autoComplete,
+  titleText = defaultProps.titleText,
+  displayValue = defaultProps.displayValue,
+  focused = defaultProps.focused,
+  isFocused = defaultProps.isFocused,
+  disabled = defaultProps.disabled,
+  required = defaultProps.required,
+  readOnly = defaultProps.readOnly,
+  showCaret = defaultProps.showCaret,
+  showClearDate = defaultProps.showClearDate,
+  showDefaultInputIcon = defaultProps.showDefaultInputIcon,
+  inputIconPosition = defaultProps.inputIconPosition,
+  phrases = defaultProps.phrases,
+  onClearDate = defaultProps.onClearDate,
+  onChange = defaultProps.onChange,
+  onFocus = defaultProps.onFocus,
+  onKeyDownShiftTab = defaultProps.onKeyDownShiftTab,
+  onKeyDownTab = defaultProps.onKeyDownTab,
+  onKeyDownArrowDown = defaultProps.onKeyDownArrowDown,
+  onKeyDownQuestionMark = defaultProps.onKeyDownQuestionMark,
+  screenReaderMessage = defaultProps.screenReaderMessage,
+  customCloseIcon = defaultProps.customCloseIcon,
+  customInputIcon = defaultProps.customInputIcon,
+  openDirection = defaultProps.openDirection,
+  isRTL = defaultProps.isRTL,
+  noBorder = defaultProps.noBorder,
+  block = defaultProps.block,
+  small = defaultProps.small,
+  regular = defaultProps.regular,
+  verticalSpacing = defaultProps.verticalSpacing,
+  css,
   styles,
 }) {
   const calendarIcon = customInputIcon || (
@@ -147,6 +154,7 @@ function SingleDatePickerInput({
       disabled={disabled}
       aria-label={phrases.focusStartDate}
       onClick={onFocus}
+      tabIndex="-1"
     >
       {calendarIcon}
     </button>
@@ -169,6 +177,8 @@ function SingleDatePickerInput({
         id={id}
         placeholder={placeholder}
         ariaLabel={ariaLabel}
+        autoComplete={autoComplete}
+        titleText={titleText}
         displayValue={displayValue}
         screenReaderMessage={screenReaderText}
         focused={focused}
@@ -216,7 +226,6 @@ function SingleDatePickerInput({
 }
 
 SingleDatePickerInput.propTypes = propTypes;
-SingleDatePickerInput.defaultProps = defaultProps;
 
 export default withStyles(({ reactDates: { border, color } }) => ({
   SingleDatePickerInput: {

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import momentPropTypes from 'react-moment-proptypes';
 import { forbidExtraProps, mutuallyExclusiveProps, nonNegativeInteger } from 'airbnb-prop-types';
-import { css, withStyles, withStylesPropTypes } from 'react-with-styles';
+import { withStyles, withStylesPropTypes } from 'react-with-styles';
 import moment from 'moment';
 import { addEventListener } from 'consolidated-events';
 
@@ -22,7 +22,6 @@ import isNextMonth from '../utils/isNextMonth';
 import ModifiersShape from '../shapes/ModifiersShape';
 import ScrollableOrientationShape from '../shapes/ScrollableOrientationShape';
 import DayOfWeekShape from '../shapes/DayOfWeekShape';
-
 
 import {
   HORIZONTAL_ORIENTATION,
@@ -152,33 +151,35 @@ class CalendarMonthGrid extends React.PureComponent {
     const hasNumberOfMonthsChanged = prevNumberOfMonths !== numberOfMonths;
     let newMonths = months;
 
-    if (hasMonthChanged && !hasNumberOfMonthsChanged) {
-      if (isNextMonth(prevInitialMonth, initialMonth)) {
-        newMonths = months.slice(1);
-        newMonths.push(months[months.length - 1].clone().add(1, 'month'));
-      } else if (isPrevMonth(prevInitialMonth, initialMonth)) {
-        newMonths = months.slice(0, months.length - 1);
-        newMonths.unshift(months[0].clone().subtract(1, 'month'));
-      } else {
+    if (hasMonthChanged || hasNumberOfMonthsChanged) {
+      if (hasMonthChanged && !hasNumberOfMonthsChanged) {
+        if (isNextMonth(prevInitialMonth, initialMonth)) {
+          newMonths = months.slice(1);
+          newMonths.push(months[months.length - 1].clone().add(1, 'month'));
+        } else if (isPrevMonth(prevInitialMonth, initialMonth)) {
+          newMonths = months.slice(0, months.length - 1);
+          newMonths.unshift(months[0].clone().subtract(1, 'month'));
+        } else {
+          const withoutTransitionMonths = orientation === VERTICAL_SCROLLABLE;
+          newMonths = getMonths(initialMonth, numberOfMonths, withoutTransitionMonths);
+        }
+      }
+
+      if (hasNumberOfMonthsChanged) {
         const withoutTransitionMonths = orientation === VERTICAL_SCROLLABLE;
         newMonths = getMonths(initialMonth, numberOfMonths, withoutTransitionMonths);
       }
-    }
 
-    if (hasNumberOfMonthsChanged) {
-      const withoutTransitionMonths = orientation === VERTICAL_SCROLLABLE;
-      newMonths = getMonths(initialMonth, numberOfMonths, withoutTransitionMonths);
-    }
+      const momentLocale = moment.locale();
+      if (this.locale !== momentLocale) {
+        this.locale = momentLocale;
+        newMonths = newMonths.map((m) => m.locale(this.locale));
+      }
 
-    const momentLocale = moment.locale();
-    if (this.locale !== momentLocale) {
-      this.locale = momentLocale;
-      newMonths = newMonths.map((m) => m.locale(this.locale));
+      this.setState({
+        months: newMonths,
+      });
     }
-
-    this.setState({
-      months: newMonths,
-    });
   }
 
   componentDidUpdate() {
@@ -259,6 +260,7 @@ class CalendarMonthGrid extends React.PureComponent {
       focusedDate,
       isFocused,
       isRTL,
+      css,
       styles,
       phrases,
       dayAriaLabelFormat,
@@ -293,7 +295,7 @@ class CalendarMonthGrid extends React.PureComponent {
           isVerticalScrollable && styles.CalendarMonthGrid__vertical_scrollable,
           isAnimating && styles.CalendarMonthGrid__animating,
           isAnimating && transitionDuration && {
-            transition: `transform ${transitionDuration}ms ease-in-out`,
+            transition: `transform ${transitionDuration}ms ease-in-out 0.1s`,
           },
           {
             ...getTransformStyles(transformValue),

@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import momentPropTypes from 'react-moment-proptypes';
 import { forbidExtraProps, mutuallyExclusiveProps, nonNegativeInteger } from 'airbnb-prop-types';
-import { css, withStyles, withStylesPropTypes } from 'react-with-styles';
+import { withStyles, withStylesPropTypes } from 'react-with-styles';
 import moment from 'moment';
 
 import { CalendarDayPhrases } from '../defaultPhrases';
@@ -21,7 +21,6 @@ import toISODateString from '../utils/toISODateString';
 import ModifiersShape from '../shapes/ModifiersShape';
 import ScrollableOrientationShape from '../shapes/ScrollableOrientationShape';
 import DayOfWeekShape from '../shapes/DayOfWeekShape';
-
 
 import {
   HORIZONTAL_ORIENTATION,
@@ -107,7 +106,7 @@ class CalendarMonth extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.setMonthTitleHeightTimeout = setTimeout(this.setMonthTitleHeight, 0);
+    this.queueSetMonthTitleHeight();
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -132,6 +131,14 @@ class CalendarMonth extends React.PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { setMonthTitleHeight } = this.props;
+
+    if (prevProps.setMonthTitleHeight === null && setMonthTitleHeight !== null) {
+      this.queueSetMonthTitleHeight();
+    }
+  }
+
   componentWillUnmount() {
     if (this.setMonthTitleHeightTimeout) {
       clearTimeout(this.setMonthTitleHeightTimeout);
@@ -148,6 +155,10 @@ class CalendarMonth extends React.PureComponent {
 
   setCaptionRef(ref) {
     this.captionRef = ref;
+  }
+
+  queueSetMonthTitleHeight() {
+    this.setMonthTitleHeightTimeout = window.setTimeout(this.setMonthTitleHeight, 0);
   }
 
   render() {
@@ -172,6 +183,7 @@ class CalendarMonth extends React.PureComponent {
       renderDayContents,
       renderMonthElement,
       renderMonthText,
+      css,
       styles,
       verticalBorderSpacing,
     } = this.props;
