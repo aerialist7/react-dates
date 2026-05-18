@@ -4,6 +4,10 @@
 - []  ([#](https://github.com/react-dates/react-dates/pull/))
 -->
 
+## 21.8.0-patch.7
+
+- [fix] Fix "When calling super() in DayPickerSingleDateController, make sure to pass up the same props that your component's constructor was passed"
+
 ## 21.8.0-patch.6
 
 - [fix] Fix "TypeError: this.shouldDisableMonthNavigation is not a function" in `SingleDatePicker` component (no code changes – there was an error during publication)
